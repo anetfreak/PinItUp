@@ -17,7 +17,7 @@ def boardsetup(base,conf_fn):
 @route('/')
 def root():
    print "--> root"
-   return 'welcome to PinItUp'
+   return 'Welcome to PinItUp'
 
 @route('/users/<id>/boards', method='POST')
 def createBoard(id):
@@ -64,7 +64,7 @@ def __format(request):
 # The content type on the reply
 #
 def __response_format(reqfmt):
-      if reqfmt == Baord.html:
+      if reqfmt == Board.html:
          return "text/html"
       elif reqfmt == Board.text:
          return "text/plain"
