@@ -6,6 +6,7 @@ import json
 
 # moo 
 #from data.storage import Storage
+from boards_dao import DBConn
 
 class Board(object):
    # very limited content negotiation support - our format choices 
@@ -30,38 +31,35 @@ class Board(object):
          raise Exception("configuration file not found.")
 
       # create storage
+      self.dbconn = DBConn()
+      
+      
       #self.__store = Storage()
 
-   def add(self, boardName, boardDesc, category, isPrivate):
+   def add(self, userId, boardName, boardDesc, category, isPrivate):
       print '---> board.add: boardName:',boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
       try:
-         #self.__store.insert(name,value)
-         #self.__store.names();
-         return 'success'
+         keyObj = self.dbconn.createKey_Obj()
+         bins = self.dbconn.createBins()
+         self.dbconn.writeToDB(keyObj,bins)
+         url = {}
+         url['url'] = 'users/userId/boards/boardName'
+         url['method'] = 'GET'
+         list = [url,url]
+         self.dbconn.readFromDB(keyObj)
+         return str(list)
       except:
          return 'failed'
 
 
-
-
-
-
-   #
-   # output as xml is supported through other packages. If
-   # you want to add xml support look at gnosis or lxml.
-   #
-   def __conf_as_xml(self):
-      return "xml is hard"
-
-   #
-   #
-   #
-   def __conf_as_json(self):
+   def conf_as_json(self):
       try:
-         all = {}
-         all["base.dir"] = self.base
-         all["conf"] = self.conf
-         return json.dumps(all)
+         url = {}
+         url["url"] = 'users/{UserId}/boards/{boardName}'
+         url["method"] = 'GET'
+         list = [url]
+         #return json.dumps(list)
+         return str(list)
       except:
          return "error: unable to return configuration"
 
