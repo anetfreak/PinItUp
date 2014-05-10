@@ -86,7 +86,7 @@ def find(name):
 #
 @route('/moo/data', method='POST')
 def add():
-   print '---> moo.add:',name
+   print '---> moo.add:'
 
    # example list form values
    for k,v in request.forms.allitems():
