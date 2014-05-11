@@ -38,15 +38,15 @@ class Pin(object):
           #generate a pinID after creating a PIN from the DB
           pinId = 0 #to be changed
           pinDetails = {}
-          pinDetails['pinDetails'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/'
+          pinDetails['pinDetails'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/'
           pinDetails['method'] = 'GET'
             
           updatePin = {}
-          updatePin['updatePin'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/'
+          updatePin['updatePin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/'
           updatePin['method'] = 'PUT'
             
           deletePin = {}
-          deletePin['deletePin'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/'
+          deletePin['deletePin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/'
           deletePin['method'] = 'DELETE'
             
           listPins = [pinDetails, updatePin, deletePin]
@@ -75,15 +75,15 @@ class Pin(object):
        #TODO : fetch the board details from the db
        print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
        updatePin = {}
-       updatePin['updatePin'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       updatePin['updatePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        updatePin['method'] = 'PUT'
            
        deletePin = {}
-       deletePin['deletePin'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       deletePin['deletePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        deletePin['method'] = 'DELETE'
            
        comments = {}
-       comments['comments'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       comments['comments'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        comments['method'] = 'POST'
            
        pins = [updatePin, deletePin, comments]
@@ -97,15 +97,15 @@ class Pin(object):
        #TODO : 
        try:
            pinDetails = {}
-           pinDetails['pinDetails'] = '/users/', userId, '/boards/', boardName, '/pins/'
+           pinDetails['pinDetails'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
            pinDetails['method'] = 'GET'
        
            createPin = {}
-           createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins'
+           createPin['createPin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
            createPin['method'] = 'POST'
         
            updatePin = {}
-           updatePin['updatePin'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+           updatePin['updatePin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/'
            updatePin['method'] = 'PUT'
        
            pins = [pinDetails, createPin, updatePin]
@@ -121,11 +121,11 @@ class Pin(object):
         print '--Delete a pin'
         try:
             pinDetails = {}
-            pinDetails['pinDetails'] = '/users/', userId, '/boards/', boardName, '/pins/'
+            pinDetails['pinDetails'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
             pinDetails['method'] = 'GET'
             
             createPin = {}
-            createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins/'
+            createPin['createPin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
             createPin['method'] = 'POST'
             
             deletePins = [pinDetails, createPin]
