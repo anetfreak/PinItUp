@@ -18,6 +18,9 @@ def root():
     print "--> root"
     return 'Welcome to PinItUp'
 
+#
+# Adding a pin to a board
+#
 @route('/users/<userId>/boards/<boardName>/pins/', method='POST')
 def createPin(userId, boardName):
     print '---> create Pin for user :',userId , 'in board : ', boardName
@@ -25,6 +28,42 @@ def createPin(userId, boardName):
     pinDesc = request.forms.get('description')
     pinName = request.forms.get('pinName')
     return pin.add(userId, pinName, pinDesc, image, boardName)
+
+#
+#Get list of pins for a particular board
+#
+@route('/users/<userId>/<boardName>/pins/', method='GET')
+def getPins(userId, boardName):
+    print '--> Retrieving all pins for the Board'
+    return pin.getPins(userId, boardName)
+
+#
+# Get a single pin details for a board from DB
+#
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='GET')
+def getAPin(userId, boardName, pinId):
+    print '--> Retrieving details of a pin on the board from DB'
+    return pin.getAPin(userId,boardName, pinId)
+
+#
+#Update a pin based on board name
+#
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='PUT')
+def updatePin(userId, boardName, pinId):
+    print '---> create Pin for user :',userId , 'in board : ', boardName
+    image = request.forms.get('image')
+    pinDesc = request.forms.get('description')
+    pinName = request.forms.get('pinName')
+    return pin.updatePin(userId, pinName, pinDesc, image, boardName)
+
+#
+# Delete a pin
+#
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='DELETE')
+def deletePin(userId, boardName, pinId):
+    print '--> Delete a pin for user :',userId , 'in board : ', boardName
+    return deletePin(userId, boardName, pinId)
+
 
 def __format(request):
     #for key in sorted(request.headers.iterkeys()):

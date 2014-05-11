@@ -46,6 +46,28 @@ def getABoard(id, boardname):
     return board.getABoard(id,boardname)
 
 #
+# update a board details
+#
+@route('/users/<id>/boards/<boardname>', method='PUT')
+def updateBoard(id, boardname):
+     print '---> Update Board Details :',boardname
+     boardName = request.forms.get('boardName')
+     boardDesc = request.forms.get('boardDesc')
+     category = request.forms.get('category')
+     isPrivate = request.forms.get('isPrivate')
+     return board.updateBoard(id,boardName, boardDesc, category, isPrivate)
+ 
+ 
+#
+# Delete a board
+#
+@route('/users/<UserId>/boards/<boardName>', method='DELETE')
+def deleteBoard(userId, boardName):
+    print '--> Delete Board: ',boardName
+    return board.deleteBoard(userId, boardName)
+
+
+#
 # Determine the format to return data (does not support images)
 #
 # TODO method for Accept-Charset, Accept-Language, Accept-Encoding, 
