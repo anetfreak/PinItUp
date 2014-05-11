@@ -29,6 +29,21 @@ def createBoard(id):
    return board.add(id,boardName, boardDesc, category, isPrivate)
    #	return 'Add Board Success'
 
+#
+#return all the boards for a User
+#
+@route('/users/<UserId>/boards/', method='GET')
+def listBoards(UserId):
+    print '--> List boards for a user : ',UserId
+    return board.getBoards(UserId)
+
+#
+#Return single board for a user
+#
+@route('/users/<id>/boards/<boardname>', method='GET')
+def getABoard(id, boardname):
+    print '--> retrieve a single board for the userid :',id
+    return board.getABoard(id,boardname)
 
 #
 # Determine the format to return data (does not support images)

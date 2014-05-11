@@ -14,7 +14,7 @@ from UsersData import UsersData
 user = None
 
 def usersetup(base, conf_fn):
-   print '\n**** service initialization ****\n'
+   print '\n**** User initialization ****\n'
    global user 
    user = UsersData(base, conf_fn)
 

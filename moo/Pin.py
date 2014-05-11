@@ -40,11 +40,6 @@ class Pin(object):
       except:
          return 'failed'
 
-
-
-
-
-
    #
    # output as xml is supported through other packages. If
    # you want to add xml support look at gnosis or lxml.

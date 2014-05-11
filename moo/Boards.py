@@ -51,6 +51,43 @@ class Board(object):
       except:
          return 'failed'
 
+#
+#Return All the boards for a UserId
+#
+   def getBoards(self,userId):
+         print '--> getBoards for user'
+         try:
+             #fetch list of boards for that user from the db
+             return str(list)
+         except:
+             return 'Failed.!'
+
+
+#
+#Return a single board value for a UserID
+#
+   def getABoard(self, userid, boardname):
+        print '--> Get a single Board'
+        try:
+            #fetch the board details from the db
+            print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
+            updateBoard = {}
+            updateBoard['updateBoard'] = '/users/',userid,'/boards/',boardname,'/'
+            updateBoard['method'] = 'PUT'
+            
+            deleteBoard = {}
+            deleteBoard['deleteBoard'] = '/users/',userid,'/boards/',boardname,'/'
+            deleteBoard['method'] = 'DELETE'
+            
+            createPin = {}
+            createPin['createPin'] = '/users/',userid,'/boards/',boardname,'/pins'
+            createPin['method'] = 'POST'
+            
+            listBoards = [updateBoard, deleteBoard, createPin]
+            return str(listBoards)
+            
+        except:
+            return 'Failed.!'
 
    def conf_as_json(self):
       try:
