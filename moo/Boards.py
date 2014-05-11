@@ -6,7 +6,7 @@ import json
 
 # moo 
 # from data.storage import Storage
-from boards_dao import DBConn
+from board_dao import DBConn
 
 class Board(object):
    # very limited content negotiation support - our format choices 
@@ -40,6 +40,7 @@ class Board(object):
       print '---> board.add: boardName:', boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
       try:
          # Insert userId and Board mapping in DB (key = User Id)
+           self.dbconn.createBoard(userId, boardName, boardDesc, category, isPrivate)
 #          bin_name = ["userId", "boardName"]
 #          values = [userId, boardName]
 #          types = ["string", "string"]
