@@ -36,7 +36,7 @@ def loginUser():
 #
 # Logout function
 #
-@route('/users/logout/', method='GET')
+@route('/users/<username>/logout/', method='GET')
 def logoutUser(username):
     print '--> User Logout'
     return user.logout(username)
