@@ -17,7 +17,7 @@ def boardsetup(base,conf_fn):
 @route('/')
 def root():
    print "--> root"
-   return 'Welcome to PinItUp'
+   return '*** Welcome to PinItUp ***'
 
 @route('/users/<id>/boards', method='POST')
 def createBoard(id):
