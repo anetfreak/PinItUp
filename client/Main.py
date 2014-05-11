@@ -1,9 +1,13 @@
 import sys
+from subprocess import os
 sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
-    import sys
-  
+    
+    #Configure Server
+    print "Enter the Server Endpoint Details"
+    host = str(input("Enter host: "))
+    port = int(input("Enter port: "))
     #Display the menu to the user. Perform the necessary action as per his choice.. 
     running = True
     authenticated = False
@@ -17,11 +21,14 @@ if __name__ == '__main__':
         if (authenticated):
             print "3. Pins"
             print "4. Boards"
-#             print "3. Quit"
+        print "99. Quit"
       
         choice = int(input("\nYour Option -> "))
         if choice == 1:
             #Login to PinItUp
+            request = "curl -i -H 'Accept: application/json' --data 'username=admin&password=admin'  http://" + host + ":" + str(port) + "/users/login"
+            print request
+            print os.popen(request).read()
             authenticated = True
         elif choice == 2:
             #Signup with PinItUp
@@ -77,8 +84,8 @@ if __name__ == '__main__':
                     print "Board deleted.."
                 elif menuItem == 'e':
                     boardMenu = False
-#       elif choice == 7:
-#           print "Bye!"
-#           running = False
+        elif choice == 99:
+            print "Bye!"
+            running = False
         else:
             print "Please choose a valid option. -> "

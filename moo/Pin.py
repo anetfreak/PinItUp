@@ -40,16 +40,9 @@ class Pin(object):
       except:
          return 'failed'
 
-   #
-   # output as xml is supported through other packages. If
-   # you want to add xml support look at gnosis or lxml.
-   #
    def __conf_as_xml(self):
       return "xml is hard"
 
-   #
-   #
-   #
    def __conf_as_json(self):
       try:
          all = {}
@@ -59,9 +52,6 @@ class Pin(object):
       except:
          return "error: unable to return configuration"
 
-   #
-   #
-   #
    def __conf_as_text(self):
       try:
         sb = StringIO.StringIO()
@@ -82,9 +72,6 @@ class Pin(object):
 #
       return "text"
 
-   #
-   #
-   #
    def __conf_as_html(self):
       try:
         sb = StringIO.StringIO()
