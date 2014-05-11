@@ -26,7 +26,7 @@ def createBoard(id):
    boardDesc = request.forms.get('boardDesc')
    category = request.forms.get('category')
    isPrivate = request.forms.get('isPrivate')
-   return board.add(id,boardName, boardDesc, category, isPrivate)
+   return board.createBoard(id,boardName, boardDesc, category, isPrivate)
    #	return 'Add Board Success'
 
 #
