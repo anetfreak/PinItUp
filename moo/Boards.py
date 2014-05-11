@@ -36,17 +36,33 @@ class Board(object):
       
       #self.__store = Storage()
 
-   def add(self, userId, boardName, boardDesc, category, isPrivate):
+   def createBoard(self, userId, boardName, boardDesc, category, isPrivate):
       print '---> board.add: boardName:',boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
       try:
-         keyObj = self.dbconn.createKey_Obj()
-         bins = self.dbconn.createBins()
-         self.dbconn.writeToDB(keyObj,bins)
+         #Insert userId and Board mapping in DB (key = User Id)
+         bin_name = ["userId","boardName"]
+         values = [userId,boardName]
+         types = ["string","string"]
+         keyObj = self.dbconn.createKey_Obj(userId)
+         bins = self.dbconn.createBins_general(bin_name,values,types,2)
+         self.dbconn.writeToDB("UserBoards",keyObj,bins,2)
+
+         #Insert Board Details in DB (Key = Board Name)
+         bin_name = ["userId","boardName","boardDesc","category","isPrivate"]
+         values = [userId, boardName, boardDesc, category, isPrivate]
+         types = ["string","string","string","string","string"]
+         keyObj = self.dbconn.createKey_Obj(boardName)
+         bins = self.dbconn.createBins_general(bin_name,values,types,5)
+         self.dbconn.writeToDB("AllBoards",keyObj,bins,5)
+
+         #Create response to Client
          url = {}
          url['url'] = 'users/userId/boards/boardName'
          url['method'] = 'GET'
          list = [url,url]
-         self.dbconn.readFromDB(keyObj)
+         #print 'DEBUG: reading from DB'
+         #self.dbconn.readFromDB("AllBoards",keyObj)
+         #Return result to Client
          return str(list)
       except:
          return 'failed'
@@ -55,8 +71,10 @@ class Board(object):
 #Return All the boards for a UserId
 #
    def getBoards(self,userId):
-         print '--> getBoards for user'
+         print '--> getBoards for user', userId
          try:
+             keyObj = self.dbconn.createKey_Obj(userId)
+             list = self.dbconn.readFromDB("UserBoards",keyObj)
              #fetch list of boards for that user from the db
              return str(list)
          except:
