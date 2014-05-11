@@ -55,7 +55,7 @@ if __name__ == '__main__':
         elif choice == 4:
             #Handling Pin functionality here
             boardMenu = True
-            while pinMenu:
+            while boardMenu:
                 print "Choose one of the following Board operations: "
                 print "a. Create a new Board"
                 print "b. View all Boards"
