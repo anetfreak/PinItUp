@@ -19,7 +19,7 @@ def root():
    print "--> root"
    return '*** Welcome to PinItUp ***'
 
-@route('/users/<id>/boards', method='POST')
+@route('/users/<id>/boards/', method='POST')
 def createBoard(id):
    print '---> create Board for user :',id
    boardName = request.forms.get('boardName')
@@ -40,7 +40,7 @@ def listBoards(UserId):
 #
 #Return single board for a user
 #
-@route('/users/<id>/boards/<boardname>', method='GET')
+@route('/users/<id>/boards/<boardname>/', method='GET')
 def getABoard(id, boardname):
     print '--> retrieve a single board for the userid :',id
     return board.getABoard(id,boardname)
@@ -48,7 +48,7 @@ def getABoard(id, boardname):
 #
 # update a board details
 #
-@route('/users/<id>/boards/<boardname>', method='PUT')
+@route('/users/<id>/boards/<boardname>/', method='PUT')
 def updateBoard(id, boardname):
      print '---> Update Board Details :',boardname
      boardName = request.forms.get('boardName')
@@ -61,7 +61,7 @@ def updateBoard(id, boardname):
 #
 # Delete a board
 #
-@route('/users/<UserId>/boards/<boardName>', method='DELETE')
+@route('/users/<UserId>/boards/<boardName>/', method='DELETE')
 def deleteBoard(userId, boardName):
     print '--> Delete Board: ',boardName
     return board.deleteBoard(userId, boardName)

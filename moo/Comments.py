@@ -41,11 +41,11 @@ class Comments(object):
           commentId = 0 #to be changed
           
           updateComment = {}
-          updateComment['updateComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment'
+          updateComment['updateComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment/'
           updateComment['method'] = 'PUT'
             
           deleteComment = {}
-          deleteComment['deleteComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment'
+          deleteComment['deleteComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment/'
           deleteComment['method'] = 'DELETE'
             
           listComments = [updateComment, deleteComment]

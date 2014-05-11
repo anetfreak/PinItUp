@@ -25,7 +25,7 @@ def root():
    return '**Welcome to PinItUp**'
 
 
-@route('/users/login', method='POST')
+@route('/users/login/', method='POST')
 def loginUser():
    print '---> Login for User'
    username = request.forms.get('username')
@@ -34,7 +34,7 @@ def loginUser():
    #    return 'Login result'
    
    
-@route('/users/signup', method='POST')
+@route('/users/signup/', method='POST')
 def signup():
     firstName = request.forms.get('firstName')
     lastName = request.forms.get('lastName')

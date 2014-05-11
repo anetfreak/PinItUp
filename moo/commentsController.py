@@ -38,7 +38,7 @@ def getPins(userId, boardName):
 #
 # Get a single pin details for a board from DB
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='GET')
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='GET')
 def getAPin(userId, boardName, pinId):
     print '--> Retrieving details of a pin on the board from DB'
     return pin.getAPin(userId,boardName, pinId)

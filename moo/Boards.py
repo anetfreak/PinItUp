@@ -40,20 +40,20 @@ class Board(object):
       print '---> board.add: boardName:', boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
       try:
          # Insert userId and Board mapping in DB (key = User Id)
-         bin_name = ["userId", "boardName"]
-         values = [userId, boardName]
-         types = ["string", "string"]
-         keyObj = self.dbconn.createKey_Obj(userId)
-         bins = self.dbconn.createBins_general(bin_name, values, types, 2)
-         self.dbconn.writeToDB("UserBoards", keyObj, bins, 2)
-
-         # Insert Board Details in DB (Key = Board Name)
-         bin_name = ["userId", "boardName", "boardDesc", "category", "isPrivate"]
-         values = [userId, boardName, boardDesc, category, isPrivate]
-         types = ["string", "string", "string", "string", "string"]
-         keyObj = self.dbconn.createKey_Obj(boardName)
-         bins = self.dbconn.createBins_general(bin_name, values, types, 5)
-         self.dbconn.writeToDB("AllBoards", keyObj, bins, 5)
+#          bin_name = ["userId", "boardName"]
+#          values = [userId, boardName]
+#          types = ["string", "string"]
+#          keyObj = self.dbconn.createKey_Obj(userId)
+#          bins = self.dbconn.createBins_general(bin_name, values, types, 2)
+#          self.dbconn.writeToDB("UserBoards", keyObj, bins, 2)
+# 
+#          # Insert Board Details in DB (Key = Board Name)
+#          bin_name = ["userId", "boardName", "boardDesc", "category", "isPrivate"]
+#          values = [userId, boardName, boardDesc, category, isPrivate]
+#          types = ["string", "string", "string", "string", "string"]
+#          keyObj = self.dbconn.createKey_Obj(boardName)
+#          bins = self.dbconn.createBins_general(bin_name, values, types, 5)
+#          self.dbconn.writeToDB("AllBoards", keyObj, bins, 5)
 
          print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
          # Create response to Client
@@ -70,7 +70,7 @@ class Board(object):
          deleteBoard['method'] = 'DELETE'
          
          createPin = {}
-         createPin['createPin'] = 'users/', userId, '/boards/', boardName, '/pins'
+         createPin['createPin'] = 'users/', userId, '/boards/', boardName, '/pins/'
          createPin['method'] = 'POST'
             
          list = [urlgetBoards, updateBoard, deleteBoard, createPin]
@@ -111,7 +111,7 @@ class Board(object):
             deleteBoard['method'] = 'DELETE'
             
             createPin = {}
-            createPin['createPin'] = '/users/', userid, '/boards/', boardname, '/pins'
+            createPin['createPin'] = '/users/', userid, '/boards/', boardname, '/pins/'
             createPin['method'] = 'POST'
             
             listBoards = [updateBoard, deleteBoard, createPin]
@@ -140,7 +140,7 @@ class Board(object):
             deleteBoard['method'] = 'DELETE'
             
             createPin = {}
-            createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins'
+            createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins/'
             createPin['method'] = 'POST'
             
             listBoards = [updateBoard, deleteBoard, createPin]

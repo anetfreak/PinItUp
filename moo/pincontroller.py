@@ -48,7 +48,7 @@ def getAPin(userId, boardName, pinId):
 #
 #Update a pin based on board name
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='PUT')
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='PUT')
 def updatePin(userId, boardName, pinId):
     print '---> create Pin for user :',userId , 'in board : ', boardName
     image = request.forms.get('image')
@@ -59,7 +59,7 @@ def updatePin(userId, boardName, pinId):
 #
 # Delete a pin
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='DELETE')
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='DELETE')
 def deletePin(userId, boardName, pinId):
     print '--> Delete a pin for user :',userId , 'in board : ', boardName
     return deletePin(userId, boardName, pinId)

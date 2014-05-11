@@ -38,15 +38,15 @@ class UsersData(object):
        try:
            if username == "admin":
                urlgetBoard = {}
-               urlgetBoard['urlgetBoard'] = '/users/admin/boards'
+               urlgetBoard['urlgetBoard'] = '/users/',username,'/boards/'
                urlgetBoard['method'] = 'GET'
                urladdBoard = {}
-               urladdBoard['urladdBoard'] = '/users/admin/boards'
+               urladdBoard['urladdBoard'] = '/users/',username,'/boards/'
                urladdBoard['method'] = 'POST'
                listBoards = [urlgetBoard, urladdBoard]
                print '--------------------------------------'
                print '*** Log In Successful.! ***'
-               print 'Please find links for Create/Add Boards'
+               print 'Please find links for Get/Add Boards'
                print '-------------------------------------- \n\n'
                return str(listBoards)
            else:

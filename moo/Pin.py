@@ -125,7 +125,7 @@ class Pin(object):
             pinDetails['method'] = 'GET'
             
             createPin = {}
-            createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins'
+            createPin['createPin'] = '/users/', userId, '/boards/', boardName, '/pins/'
             createPin['method'] = 'POST'
             
             deletePins = [pinDetails, createPin]
