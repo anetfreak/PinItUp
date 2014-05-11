@@ -1,13 +1,13 @@
 import sys
-from subprocess import os
+import Requestor
 sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
     
     #Configure Server
-    print "Enter the Server Endpoint Details"
-    host = str(input("Enter host: "))
-    port = int(input("Enter port: "))
+    print "Enter the Server Endpoint Details: "
+    host = raw_input("Enter host: ")
+    port = int(raw_input("Enter port: "))
     #Display the menu to the user. Perform the necessary action as per his choice.. 
     running = True
     authenticated = False
@@ -23,12 +23,13 @@ if __name__ == '__main__':
             print "4. Boards"
         print "99. Quit"
       
-        choice = int(input("\nYour Option -> "))
+        choice = int(raw_input("\nYour Option -> "))
         if choice == 1:
             #Login to PinItUp
-            request = "curl -i -H 'Accept: application/json' --data 'username=admin&password=admin'  http://" + host + ":" + str(port) + "/users/login"
-            print request
-            print os.popen(request).read()
+            response = Requestor.makeRequest("/users/login/", host, port, "username=admin&password=admin")
+            request = "curl -i -H 'Accept: application/json' --data 'username=admin&password=admin'  http://" + host + ":" + str(port) + "/users/login/"
+            
+            print response
             authenticated = True
         elif choice == 2:
             #Signup with PinItUp
@@ -43,7 +44,7 @@ if __name__ == '__main__':
                 print "c. Modify a Pin"
                 print "d. Delete a Pin"
                 print "e. Go Back"
-                menuItem = str(input("\nYour Option -> "))
+                menuItem = raw_input("\nYour Option -> ")
                 if menuItem == "a":
                     #Create Pin
                     print "Pin created.."
@@ -69,7 +70,7 @@ if __name__ == '__main__':
                 print "c. Modify a Board"
                 print "d. Delete a Board"
                 print "e. Go Back"
-                menuItem = str(input("\nYour Option -> "))
+                menuItem = raw_input("\nYour Option -> ")
                 if menuItem == 'a':
                     #Create Board
                     print "Board created.."
