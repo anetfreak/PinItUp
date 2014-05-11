@@ -38,10 +38,10 @@ class UsersData(object):
        try:
            if username == "admin":
                urlgetBoard = {}
-               urlgetBoard['urlgetBoard'] = '/users/',username,'/boards/'
+               urlgetBoard['urlgetBoard'] = '/users/'+username+'/boards/'
                urlgetBoard['method'] = 'GET'
                urladdBoard = {}
-               urladdBoard['urladdBoard'] = '/users/',username,'/boards/'
+               urladdBoard['urladdBoard'] = '/users/'+username+'/boards/'
                urladdBoard['method'] = 'POST'
                listBoards = [urlgetBoard, urladdBoard]
                print '--------------------------------------'
@@ -54,6 +54,26 @@ class UsersData(object):
        except:
            print 'Error Encountered in Login..!'
 
+    #
+    #Logout
+    #
+   def logout(self, username):
+        print '--> LogOut for user : ',username
+        try:
+            urllogin = {}
+            urllogin['urllogin'] = '/users/login/'
+            urllogin['method'] = 'POST'
+            listLogin = [urllogin]
+            
+            signup = {}
+            signup['signup'] = '/users/signup/'
+            signup['method'] = 'POST'
+            
+            list = [urllogin, signup]
+            return str(list)
+        except:
+            return 'Failure!'
+        
     #
     # signup method for user
     #
@@ -69,7 +89,7 @@ class UsersData(object):
             print '\n \n** Congrats..! You are a registered User of PinItUp.! **'
             print 'Please find link for login \n \n'
             urllogin = {}
-            urllogin['urllogin'] = '/users/login'
+            urllogin['urllogin'] = '/users/login/'
             urllogin['method'] = 'POST'
             listLogin = [urllogin]
             return str(listLogin)

@@ -33,6 +33,13 @@ def loginUser():
    return user.login(username, password)
    #    return 'Login result'
    
+#
+# Logout function
+#
+@route('/users/<username>/logout/', method='GET')
+def logoutUser(username):
+    print '--> User Logout'
+    return user.logout(username)
    
 @route('/users/signup/', method='POST')
 def signup():

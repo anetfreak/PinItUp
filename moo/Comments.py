@@ -41,11 +41,11 @@ class Comments(object):
           commentId = 0 #to be changed
           
           updateComment = {}
-          updateComment['updateComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment/'
+          updateComment['updateComment'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
           updateComment['method'] = 'PUT'
             
           deleteComment = {}
-          deleteComment['deleteComment'] = '/users/', userId, '/boards/', boardName, '/pins/',pinId,'/comment/'
+          deleteComment['deleteComment'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
           deleteComment['method'] = 'DELETE'
             
           listComments = [updateComment, deleteComment]
@@ -74,15 +74,15 @@ class Comments(object):
        #TODO : fetch the board details from the db
        print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
        updatePin = {}
-       updatePin['updatePin'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       updatePin['updatePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        updatePin['method'] = 'PUT'
            
        deletePin = {}
-       deletePin['deletePin'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       deletePin['deletePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        deletePin['method'] = 'DELETE'
            
        comments = {}
-       comments['comments'] = '/users/',userId,'/boards/',boardName,'/pins/',pinId,'/'
+       comments['comments'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
        comments['method'] = 'POST'
            
        pins = [updatePin, deletePin, comments]
