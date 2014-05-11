@@ -30,6 +30,7 @@ class DBConn():
         # Add host to the cluster
         return_value = cl.citrusleaf_cluster_add_host(self.asc, "127.0.0.1", 3000, 1000)
 
+
     def createKey_Obj(self):
         # set up the key. Create a stack object, set its value to a string
         key_obj = cl.cl_object()
@@ -38,7 +39,7 @@ class DBConn():
 
     def createBins(self):
         # Declaring an array in this interface
-        bins = cl.cl_bin_arr(3)
+        bins = cl.cl_bin_arr(4)
         # Provide values for those bins and then initialize them.
         # Initializing bin of type string
         b0 = bins[0]
@@ -64,7 +65,7 @@ class DBConn():
         return bins
 
     def writeToDB(self,key_obj,bins):
-        return_value = cl.citrusleaf_put(self.asc, "PinItUp", "Boards", key_obj, bins, 4, None);
+        return_value = cl.citrusleaf_put(self.asc, "test", "Boards", key_obj, bins, 4, None);
         if return_value != cl.CITRUSLEAF_OK :
             print "Failure setting values %dn", return_value
             sys.exit(-1);
