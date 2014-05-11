@@ -32,7 +32,7 @@ class Comments(object):
       # self.__store = Storage()
 
 #
-# Add a pin to a board in DB
+# Add comment to a pin
 #
    def add(self, userId, boardName, pinId):
       print '---> comments.add: userId:', userId, ' boardName:', boardName, 'pinId:', pinId
