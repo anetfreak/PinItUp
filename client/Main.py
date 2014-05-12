@@ -36,8 +36,16 @@ if __name__ == '__main__':
                 username = None    
         elif choice == 2:
             #Signup with PinItUp
-            username = raw_input("Username: ").strip()
+            email = raw_input("Email: ").strip()
             password = raw_input("Password: ").strip()
+            fname = raw_input("First Name: ").strip()
+            lname = raw_input("Last Name: ").strip()
+            status = Requestor.httpPostRequest(host, port,"emailId="+email+"&password="+password+"&firstName="+fname+"&lastName="+lname , "/users/signup/")
+            if status:
+                authenticated = True
+                username = email
+            else:
+                username = None
         elif choice == 3:
             #Logout
             status = Requestor.httpGetRequest(host, port, "/users/" + username + "/logout/")
