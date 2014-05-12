@@ -19,10 +19,11 @@ if __name__ == '__main__':
         print "   =====================\n"
         print "Choose one of the options below:"
         if authenticated:
-            print "3. Logout"
+            print "4. Logout"
         else:
             print "1. Login to PinItUp"
             print "2. SignUp with PinItUp"
+        print "3. URL of choice"
         print "99. Quit"
       
         choice = int(raw_input("\nYour Option -> "))
@@ -30,10 +31,8 @@ if __name__ == '__main__':
             #Login to PinItUp
             username = raw_input("Username: ").strip()
             password = raw_input("Password: ").strip()
-            resp = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
-            if resp != None:
-                option = SubMenu.showSubMenu(resp)
-                SubMenu.processRequest(host, port, option)
+            status = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
+            if status:
                 authenticated = True
             else:
                 username = None    
@@ -49,12 +48,29 @@ if __name__ == '__main__':
                 username = email
             else:
                 username = None
-        elif choice == 3:
+        elif choice == 4:
             #Logout
             status = Requestor.httpGetRequest(host, port, "/users/" + username + "/logout/")
             if status:
                 authenticated = False
                 username = None
+        elif choice == 3:
+            #Custom URL flow
+            option = raw_input("Enter choice in URL|METHOD format - ").strip()
+            data = None
+            request = option.split("|")
+            uri = request[0]
+            method = request[1]
+            method = method.upper()
+            if method == 'POST':
+                status = Requestor.httpPostRequest(host, port, data, uri)
+            elif method == 'GET':
+                status = Requestor.httpGetRequest(host, port, uri)
+            
+            if status:
+                print "Success!"
+            else:
+                print "Failure"
         elif choice == 99:
             print "Bye!"
             running = False

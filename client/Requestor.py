@@ -22,16 +22,20 @@ def httpPostRequest(host, port, data, uri):
             data = data.replace("\'", "\"")
             jsonResp = json.loads(data)
             print "\nSuccess!"
-            print""
-            return jsonResp
+            print "URL's that you can navigate next to -> "
+            for item in jsonResp:
+                for key, value in item.iteritems():
+                    print key + " - \"" + value + "\""
+                print ""
+            return True
         except:
             print "\nFailure"
             print sys.exc_info()[0]
-            return None
+            return False
     else:
         print "\nFailure"
         print "Error occurred with status code " + str(r1.status)
-        return None
+        return False
     conn.close()
 
 def httpGetRequest(host, port, uri):
