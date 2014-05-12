@@ -1,6 +1,7 @@
 from subprocess import os
 import json
 import httplib
+import re
 
 def makeRequest(uri, host, port, data):
     if (data == None):
@@ -11,13 +12,18 @@ def makeRequest(uri, host, port, data):
     return json.dumps(response)
 
 
-def httpRequest():
-    conn = httplib.HTTPConnection("127.0.0.1:8080")
-    conn.request("POST", "/users/login/", "username=admin&password=admin")
+def httpPostRequest(host, port, data, uri):
+    conn = httplib.HTTPConnection(host + ":" + port)
+    conn.request("POST", uri, data)
     r1 = conn.getresponse()
     data = r1.read()
-    print data
-    jsonResp = json.loads(str(data))
-    print jsonResp.__getitem__(0)
-#     for item in json.loads(strippedData):
-#         print item
+    data = data.replace("\'", "\"")
+    jsonResp = json.loads(data)
+
+def httpGetRequest(host, port, data, uri):
+    conn = httplib.HTTPConnection(host + ":" + port)
+    conn.request("GET", uri)
+    r1 = conn.getresponse()
+    data = r1.read()
+    data = data.replace("\'", "\"")
+    jsonResp = json.loads(data)

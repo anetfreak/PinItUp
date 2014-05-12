@@ -30,6 +30,7 @@ def loginUser():
    print '---> Login for User'
    username = request.forms.get('username')
    password = request.forms.get('password')
+   response.status = 201
    return user.login(username, password)
    #    return 'Login result'
    

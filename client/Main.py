@@ -7,7 +7,7 @@ if __name__ == '__main__':
     #Configure Server
     print "Enter the Server Endpoint Details: "
     host = raw_input("Enter host: ")
-    port = int(raw_input("Enter port: "))
+    port = raw_input("Enter port: ")
     #Display the menu to the user. Perform the necessary action as per his choice.. 
     running = True
     authenticated = False
@@ -26,10 +26,9 @@ if __name__ == '__main__':
         choice = int(raw_input("\nYour Option -> "))
         if choice == 1:
             #Login to PinItUp
-#             response = Requestor.makeRequest("/users/login/", host, port, "username=admin&password=admin")
-#             print response
-            Requestor.httpRequest()
-            
+            username = raw_input("Username: ").strip()
+            password = raw_input("Password: ").strip()
+            Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
             authenticated = True
         elif choice == 2:
             #Signup with PinItUp
