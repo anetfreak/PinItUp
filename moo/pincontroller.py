@@ -1,9 +1,5 @@
-import time
-import sys
-import socket
-
 # bottle framework
-from bottle import request, response, route, run, template
+from bottle import request, route
 from Pin import Pin
 
 pin = None
@@ -97,7 +93,3 @@ def __response_format(reqfmt):
             return "application/json"
         else:
             return "*/*"
-            
-        # TODO
-      # xml: application/xhtml+xml, application/xml
-      # image types: image/jpeg, etc

@@ -36,6 +36,8 @@ class Comments(object):
           result = self.dbconn.createComment(userId, boardName, pinId, description)
           commentId = result
           
+          print '** Please find links for Updating Comment / Deleting Comment**'
+          
           url = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
           updateComment = {}
           updateComment['url'] = url
@@ -89,6 +91,7 @@ class Comments(object):
         try:
             result = self.dbconn.deleteComment(userId, boardName, pinId, commentId)
             if result == True:
+                print '** Please find links for Viewing Comments/ Adding a Comment **'
                 url = '/users/' + userId + '/boards/' + boardName + '/pins/'+ pinId + '/comment/'
                 commentDetails = {}
                 commentDetails['url'] = url

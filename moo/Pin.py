@@ -1,4 +1,3 @@
-import sys
 import os
 import socket
 import StringIO
@@ -8,13 +7,9 @@ import json
 from pin_dao import DBConn
 
 class Pin(object):
-   # very limited content negotiation support - our format choices 
-   # for output. This also shows _a way_ of representing enums in python
    json, xml, html, text = range(1, 5)
-   
-   #
+
    # setup the configuration for our service
-   #
    def __init__(self, base, conf_fn):
       self.host = socket.gethostname()
       self.base = base
@@ -29,30 +24,32 @@ class Pin(object):
       else:
          raise Exception("Configuration file not found..")
 
-            # create storage
       self.dbconn = DBConn("127.0.0.1", 5984)
       
 #
 # add a new pin
+#
    def add(self, userId, pinName, pinDesc, image, boardName):
       print '---> pin.add: userId:', userId, ' pinDesc:', pinDesc, 'pinName: ', pinName, 'image:', image, ' boardName:', boardName
       try:
           result = self.dbconn.createPin(userId, pinName, pinDesc, image, boardName)
           if result == True:
-            pinDetails = {}
-            pinDetails['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
-            pinDetails['method'] = 'GET'
+              print '** Please find links for Viewing Pin Details/ Updating Pin Details/ Deleting Pin Details **'
+              url = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
+              pinDetails = {}
+              pinDetails['url'] = url
+              pinDetails['method'] = 'GET'
             
-            updatePin = {}
-            updatePin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
-            updatePin['method'] = 'PUT'
+              updatePin = {}
+              updatePin['url'] = url
+              updatePin['method'] = 'PUT'
             
-            deletePin = {}
-            deletePin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
-            deletePin['method'] = 'DELETE'
+              deletePin = {}
+              deletePin['url'] = url
+              deletePin['method'] = 'DELETE'
             
-            listPins = [pinDetails, updatePin, deletePin]
-            return str(listPins)
+              listPins = [pinDetails, updatePin, deletePin]
+              return str(listPins)
           else:
               return '** Pin cannot be created.! **'
          
@@ -60,13 +57,13 @@ class Pin(object):
          return 'Failed.! '
 
 #
-# Retreive all pins for a board
+# Retrieve all pins for a board
    def getPins(self, userId, boardName):
        print '--> Get all pins for BoardName :' + boardName
        try:
            list = self.dbconn.getUserBoardPins(userId, boardName)
            if list == None:
-               return 'No pins exist for the Board : ' + boardName
+               return '** No pins exist for the Board : ' + boardName
            else:
                return str(list)
        except:
@@ -74,79 +71,83 @@ class Pin(object):
     
     
    #
-   # Retreive details of a pin
+   # Retrieve details of a pin
    def getAPin(self, userId, boardName, pinId):
        print'--> Get a Pin detail on a board'
        try:
            list = self.dbconn.getPinDetails(userId, boardName, pinId)
            if list == None:
-               return 'No pin details exist for the Pin : ' + pinId
+               return '** No pin details exist for the Pin : ' + pinId
            else :
-               print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
+               print '** Please find links for Updating Pin Details/ Deleting Pin/ Adding a comment on the Pin **'
+               url = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinId + '/'
                updatePin = {}
-               updatePin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinId + '/'
+               updatePin['url'] = url
                updatePin['method'] = 'PUT'
            
                deletePin = {}
-               deletePin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinId + '/'
+               deletePin['url'] = url
                deletePin['method'] = 'DELETE'
            
                comments = {}
-               comments['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinId + '/'
+               comments['url'] = url
                comments['method'] = 'POST'
            
                pins = [updatePin, deletePin, comments]
                return str(pins)
        except:
            return 'Failure.!'
+       
    #
    # Update a Pin for a Board
-   #
    def updatePin(self, userId, pinName, pinDesc, image, boardName):
        print '--> Update a Pin'
        try:
            result = self.dbconn.updatePin(userId, pinName, pinDesc, image, boardName)
            if result == True:
+               print '** Please find links for Viewing Pin Details/ Adding a Pin/ Updating Pin Details**'
+               url ='/users/' + userId + '/boards/' + boardName + '/pins/'
                pinDetails = {}
-               pinDetails['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/'
+               pinDetails['url'] = url
                pinDetails['method'] = 'GET'
        
                createPin = {}
-               createPin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/'
+               createPin['url'] = url
                createPin['method'] = 'POST'
         
                updatePin = {}
-               updatePin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
+               updatePin['url'] = url + pinName + '/'
                updatePin['method'] = 'PUT'
        
                pins = [pinDetails, createPin, updatePin]
                return str(pins)
            else:
-               return 'Pin not updated.!'
+               return '** Pin not updated.! **'
        except:
            return 'Failed.!'
     
     
     #
     # Delete a Pin for a Board
-    #
    def deletePin(self, userId, boardName, pinId):
         print '--> Delete a pin'
         try:
             result = self.dbconn.deletePin(userId, boardName, pinId)
             if result == True:
+                print '** Please find links for Viewing Pin Details/ Adding a new Pin **'
+                url = '/users/' + userId + '/boards/' + boardName + '/pins/'
                 pinDetails = {}
-                pinDetails['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/'
+                pinDetails['url'] = url
                 pinDetails['method'] = 'GET'
             
                 createPin = {}
-                createPin['url'] = '/users/' + userId + '/boards/' + boardName + '/pins/'
+                createPin['url'] = url
                 createPin['method'] = 'POST'
             
                 deletePins = [pinDetails, createPin]
                 return str(deletePins)
             else :
-                return 'Pin cannot be deleted.!'
+                return '** Pin cannot be deleted.! **'
         except:
             return 'Failed.!'
             

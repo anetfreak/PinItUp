@@ -4,18 +4,12 @@ import socket
 import StringIO
 import json
 
-# moo 
-# from data.storage import Storage
 from board_dao import DBConn
 
 class Board(object):
-   # very limited content negotiation support - our format choices 
-   # for output. This also shows _a way_ of representing enums in python
    json, xml, html, text = range(1, 5)
-   
-   #
+
    # setup the configuration for our service
-   #
    def __init__(self, base, conf_fn):
       self.host = socket.gethostname()
       self.base = base
@@ -30,11 +24,8 @@ class Board(object):
       else:
          raise Exception("configuration file not found.")
 
-      # create storage
       self.dbconn = DBConn("127.0.0.1",5984)
-      
-      
-      # self.__store = Storage()
+
 
    def createBoard(self, userId, boardName, boardDesc, category, isPrivate):
       print '---> board.add: boardName:', boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
@@ -58,20 +49,21 @@ class Board(object):
            if result == True:
                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
                # Create response to Client
+               url = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards = {}
-               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+               urlgetBoards['url'] = url
                urlgetBoards['method'] = 'GET'
          
                updateBoard = {}
-               updateBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+               updateBoard['url'] = url
                updateBoard['method'] = 'PUT'
             
                deleteBoard = {}
-               deleteBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+               deleteBoard['url'] = url
                deleteBoard['method'] = 'DELETE'
          
                createPin = {}
-               createPin['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/pins/'
+               createPin['url'] = url + '/pins/'
                createPin['method'] = 'POST'
             
                list = [urlgetBoards, updateBoard, deleteBoard, createPin]
@@ -88,13 +80,12 @@ class Board(object):
 
 #
 # Return All the boards for a UserId
-#
    def getBoards(self, userId):
          print '--> getBoards for user', userId
          try:
              boardlist = self.dbconn.getUserBoards(userId)
              if boardlist == None:
-                 return 'No Boards exist for the user '+userId
+                 return '** No Boards exist for the user '+userId
              else:
                  boards = {}
                  boards["board"] = boardlist
@@ -105,25 +96,25 @@ class Board(object):
 
 #
 # Return a single board value for a UserID
-#
    def getABoard(self, userid, boardname):
         print '--> Get a single Board'
         try:
             board_keyvalue = self.dbconn.getBoardDetails(userid, boardname)
             if board_keyvalue == None:
-                return 'No Board Details for '+boardname + 'for user '+userid
+                return '** No Board Details for '+boardname + 'for user '+userid
             else :
-                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
+                print '** Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board **'
+                url = '/users/'+ userid+ '/boards/'+ boardname+ '/'
                 updateBoard = {}
-                updateBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/'
+                updateBoard['url'] = url
                 updateBoard['method'] = 'PUT'
             
                 deleteBoard = {}
-                deleteBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/'
+                deleteBoard['url'] = url
                 deleteBoard['method'] = 'DELETE'
             
                 createPin = {}
-                createPin['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/pins/'
+                createPin['url'] = url + 'pins/'
                 createPin['method'] = 'POST'
             
                 listlinks = [updateBoard, deleteBoard, createPin]
@@ -139,26 +130,27 @@ class Board(object):
 
 #
 # Update a Board's Details
-#
    def updateBoard(self, userId, boardName, boardDesc, category, isPrivate):
         print '--> Update a Board'
         try:
             result = self.dbconn.updateBoard(userId, boardName, boardDesc, category, isPrivate)
             if result == True:
+                print '** Please find links for Viewing Board Details/ Updating Board/ Deleting Board/ Creating a pin on the Board **'
+                url = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                 urlgetBoards = {}
-                urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+                urlgetBoards['url'] = url
                 urlgetBoards['method'] = 'GET'
             
                 updateBoard = {}
-                updateBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+                updateBoard['url'] = url
                 updateBoard['method'] = 'PUT'
              
                 deleteBoard = {}
-                deleteBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+                deleteBoard['url'] = url
                 deleteBoard['method'] = 'DELETE'
             
                 createPin = {}
-                createPin['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
+                createPin['url'] = url + 'pins/'
                 createPin['method'] = 'POST'
             
                 listlinks = [updateBoard, deleteBoard, createPin]
@@ -173,12 +165,12 @@ class Board(object):
             
 #
 #delete from board
-#
    def deleteBoard(self, userId, boardName):
        print '--> Delete a Board'
        try:
            result = self.dbconn.deleteBoard(userId, boardName)
            if result == True:
+               print '** Please find links for Viewing Board Details/ Creating a new Board **'
                urlgetBoards = {}
                urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards['method'] = 'GET'
@@ -192,7 +184,7 @@ class Board(object):
                links["links"] = listBoards
                return str(links)
            else:
-               return 'Board cannot be deleted.!'
+               return '** Board cannot be deleted.! **'
        
        except:
            return 'Failed.!'
