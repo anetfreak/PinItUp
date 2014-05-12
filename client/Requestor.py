@@ -50,7 +50,7 @@ def httpRequest(host, port, body, uri, method):
                     #print "Boards that user has -> "
                     boards = jsonResp[item]
                     templinks = None
-                    print "Boards that user has -> "
+                    print "Single Board -> "
                     for key, value in boards.iteritems():
                         if key == "links":
                             templinks = value
@@ -63,6 +63,13 @@ def httpRequest(host, port, body, uri, method):
                             for lk, lv in links.iteritems():
                                 print lk + " - " + lv
                             print ""
+                if item == "pins":
+                    print "pins for a board that user has -> "
+                    pins = jsonResp[item]
+                    for p in pins:
+                        for key, value in p.iteritems():
+                            print key + " - " + value
+                        print ""
             return True
         #except:
         else:
