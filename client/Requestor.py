@@ -93,13 +93,13 @@ def formRequest(uri, method):
             data = "pinName=" + name + "&description="+ desc + "&image=" + image
             return data
         elif uri.find("/boards/") != -1 and uri.find("/comment/") != -1:
-            #Pin Flow
+            #Comments Flow
             print "Comment Post/ Put requests"
             desc = raw_input("Comment: ").strip()
             data = "description="+ desc
             return data
         elif uri.find("/boards/") != -1:
-            #Pin Flow
+            #Boards Flow
             print "Boards Post/Put request received"
             name = raw_input("Board Name: ").strip()
             desc = raw_input("Board Desc: ").strip()
