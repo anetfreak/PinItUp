@@ -28,8 +28,10 @@ if __name__ == '__main__':
             #Login to PinItUp
             username = raw_input("Username: ").strip()
             password = raw_input("Password: ").strip()
-            Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
-            authenticated = True
+            status = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
+            if status:
+                authenticated = True
+                
         elif choice == 2:
             #Signup with PinItUp
             print "Sign up functionality coming soon.."
