@@ -29,9 +29,11 @@ def httpRequest(host, port, body, uri, method):
             print "\nSuccess!"
             print "URL's that you can navigate next to -> "
             for item in jsonResp:
-                for key, value in item.iteritems():
-                    print key + " - \"" + value + "\""
-                print ""
+                link = jsonResp[item]
+                for l in link:
+                    for key, value in l.iteritems():
+                        print key + " - \"" + value + "\""
+                    print ""
             return True
         except:
             print "\nFailure"
