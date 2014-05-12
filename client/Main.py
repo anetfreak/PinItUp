@@ -26,10 +26,10 @@ if __name__ == '__main__':
         choice = int(raw_input("\nYour Option -> "))
         if choice == 1:
             #Login to PinItUp
-            response = Requestor.makeRequest("/users/login/", host, port, "username=admin&password=admin")
-            request = "curl -i -H 'Accept: application/json' --data 'username=admin&password=admin'  http://" + host + ":" + str(port) + "/users/login/"
+#             response = Requestor.makeRequest("/users/login/", host, port, "username=admin&password=admin")
+#             print response
+            Requestor.httpRequest()
             
-            print response
             authenticated = True
         elif choice == 2:
             #Signup with PinItUp
