@@ -36,8 +36,8 @@ def httpRequest(host, port, body, uri, method):
             print ""
             
             for item in jsonResp:
-                item = item.lower()
-                if item == "links":
+                matcher = item.lower()
+                if matcher == "links":
                     print " == URL's that you can navigate next to == "
                     link = jsonResp[item]
                     for l in link:
@@ -45,7 +45,7 @@ def httpRequest(host, port, body, uri, method):
                             if key != None and value != None:
                                 print key + " - \"" + value + "\""
                         print ""
-                if item == "boards" or item == "pins" or item == "comments":
+                if matcher == "boards" or matcher == "pins" or matcher == "comments":
                     print "== " + item + " that user has == "
                     boards = jsonResp[item]
                     for b in boards:
@@ -53,7 +53,7 @@ def httpRequest(host, port, body, uri, method):
                             if key != None and value != None:
                                 print key + " - " + value
                         print ""
-                if item == "board" or item == "pin" or item == "comment":
+                if matcher == "board" or matcher == "pin" or matcher == "comment":
                     #print "Boards that user has -> "
                     boards = jsonResp[item]
                     templinks = None
