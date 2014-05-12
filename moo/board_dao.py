@@ -22,7 +22,7 @@ class DBConn():
         #Get previous Board record for this userId from userboards in DB
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
         response = os.popen(request).read()
-        #print 'current records ',response
+        print 'current records ',response
         res = json.loads(response)
         prev_boards = None     #is a list of boards
         rev = None             #is a _rev returned in query
