@@ -12,10 +12,12 @@ def makeRequest(uri, host, port, data):
 
 
 def httpRequest():
-    conn = httplib.HTTPConnection("192.168.0.28:8888")
+    conn = httplib.HTTPConnection("127.0.0.1:8080")
     conn.request("POST", "/users/login/", "username=admin&password=admin")
     r1 = conn.getresponse()
     data = r1.read()
-    strippedData = data[1:(data.length-1)]
-    for item in json.dump(strippedData):
-        print item
+    print data
+    jsonResp = json.loads(str(data))
+    print jsonResp.__getitem__(0)
+#     for item in json.loads(strippedData):
+#         print item
