@@ -31,6 +31,9 @@ class Pin(object):
       # create storage
       # self.__store = Storage()
 
+#
+#add a new pin
+#
    def add(self, userId, pinName, pinDesc, image, boardName):
       print '---> pin.add: userId:', userId, ' pinDesc:', pinDesc, 'pinName: ', pinName, 'image:', image, ' boardName:', boardName
       try:

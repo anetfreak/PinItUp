@@ -56,29 +56,29 @@ class Board(object):
 #          bins = self.dbconn.createBins_general(bin_name, values, types, 5)
 #          self.dbconn.writeToDB("AllBoards", keyObj, bins, 5)
 
-         print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
+           print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
          # Create response to Client
-         urlgetBoards = {}
-         urlgetBoards['urlgetBoards'] = 'users/'+ userId+ '/boards/'+ boardName, '/'
-         urlgetBoards['method'] = 'GET'
+           urlgetBoards = {}
+           urlgetBoards['urlgetBoards'] = 'users/'+ userId+ '/boards/'+ boardName, '/'
+           urlgetBoards['method'] = 'GET'
          
-         updateBoard = {}
-         updateBoard['updateBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
-         updateBoard['method'] = 'PUT'
+           updateBoard = {}
+           updateBoard['updateBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+           updateBoard['method'] = 'PUT'
             
-         deleteBoard = {}
-         deleteBoard['deleteBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
-         deleteBoard['method'] = 'DELETE'
+           deleteBoard = {}
+           deleteBoard['deleteBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+           deleteBoard['method'] = 'DELETE'
          
-         createPin = {}
-         createPin['createPin'] = 'users/'+ userId+ '/boards/'+ boardName+ '/pins/'
-         createPin['method'] = 'POST'
+           createPin = {}
+           createPin['createPin'] = 'users/'+ userId+ '/boards/'+ boardName+ '/pins/'
+           createPin['method'] = 'POST'
             
-         list = [urlgetBoards, updateBoard, deleteBoard, createPin]
+           list = [urlgetBoards, updateBoard, deleteBoard, createPin]
          # print 'DEBUG: reading from DB'
          # self.dbconn.readFromDB("AllBoards",keyObj)
          # Return result to Client
-         return str(list)
+           return str(list)
       except:
          return 'Failed.!'
 
