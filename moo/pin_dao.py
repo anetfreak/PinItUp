@@ -7,20 +7,21 @@ class DBConn():
         self.createConn()
 
     def createConn(self):
-        #Create new table userboards
-        uri = "/userboards"
+        #Create new table userpins
+        uri = "/userpins"
         request = "curl -X PUT http://" + self.host + ":" + str(self.port) + uri
         response = os.popen(request).read()
 
-        #Create new table boardsDetails
-        uri = "/boarddetails"
+        #Create new table pinsdetails
+        uri = "/pinsdetails"
         request = "curl -X PUT http://" + self.host + ":" + str(self.port) + uri
         response = os.popen(request).read()
         return "Success: Create DB Connection"
 
-    def createBoard(self,userId, boardName, boardDesc, category, isPrivate):
+#create a new pin
+    def createPin(self,userId, pinName, pinDesc, image, boardName):
         #Get previous Board record for this userId from DB
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userpins/'+str(userId)
         response = os.popen(request).read()
         #print 'current records ',response
         res = json.loads(response)
