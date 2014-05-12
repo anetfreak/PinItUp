@@ -18,6 +18,7 @@ class DBConn():
         response = os.popen(request).read()
         return "Success: Create DB Connection"
 
+#create a new Board
     def createBoard(self,userId, boardName, boardDesc, category, isPrivate):
         #Get previous Board record for this userId from userboards in DB
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
@@ -38,7 +39,7 @@ class DBConn():
         #print 'Prev boards ',prev_boards
         if prev_boards != None:
             if boardName in prev_boards:
-                return "Failed: Record Already Exists"
+                return False
             else:
                 print 'I am here'
                 boards = prev_boards
@@ -73,10 +74,11 @@ class DBConn():
         #print 'New request is ',request
         response = os.popen(request).read()
         #print 'Response is: ', response
-        return "Success: Create Board"
+        return True
 
     #returns boards list for user Id
     def getUserBoards(self, userId):
+        #TODO : return NONE or list
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
         response = os.popen(request).read()
         return json.loads(response)["boardName"]
@@ -84,6 +86,7 @@ class DBConn():
     #get board details based on board name
     #returns dictonary of board details
     def getBoardDetails(self, userId,boardName):
+        #TODO : return NONE or list
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+str(userId)+boardName
         response = os.popen(request).read()
         return json.loads(response)
@@ -97,7 +100,8 @@ class DBConn():
         if "_rev" in prev.keys():
             rev = prev["_rev"]
         else:
-            return "Success: No record found for delete"
+            #return "Success: No record found for delete"
+            return False
         request = 'curl -X DELETE -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+str(userId)+boardName+'?rev='+rev
         response = os.popen(request).read()
         #print 'DELETE Board: ', response
@@ -120,16 +124,19 @@ class DBConn():
                 boards = prev_boards
                 boards.remove(boardName)       
             else:
-                return "Success: record not there in User Boards"
+                #return "Success: record not there in User Boards"
+                return False
         else:
-            return "Success: record not there in User Boards"
+            #return "Success: record not there in User Boards"
+            return False
 
         data["boardName"] = boards
 
         uri = "/userboards"
         #Need rev number to update the record, if rev is None then it is first record
         if rev == None:
-            return "Success: record not there in User Boards"
+            #return "Success: record not there in User Boards"
+            return False
         else:
             data["_rev"] = str(rev)
             request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
@@ -138,7 +145,7 @@ class DBConn():
         #print 'New request is ',request
         response = os.popen(request).read()
         #print 'Response is: ', response
-        return 'Success: Board deleted'
+        return True
 
     #update board details based on board name, update of board name not supported
     def updateBoard(self,userId, boardName, boardDesc, category, isPrivate):
@@ -150,7 +157,7 @@ class DBConn():
         if "_rev" in data.keys():
             rev = data["_rev"]
         else:
-            return 'Failed: Record not found to update'
+            return False
 
         data["userId"] = userId
         #data["_id"] = boardName    #do not change this in update
@@ -162,7 +169,7 @@ class DBConn():
         response = os.popen(request).read()
         #print 'Response is: ', response
 
-        return "Success: board updated"
+        return True
 
 if __name__ == "__main__":
     dbconn = DBConn("127.0.0.1",5984)

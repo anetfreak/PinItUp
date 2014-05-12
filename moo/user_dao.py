@@ -13,7 +13,7 @@ class DBConn():
         response = os.popen(request).read()
 
 
-
+# SignUp for User
     def userSignUp(self, fname, lname, email, pwd):
         #Check if userId already exists, return user already exists
         uri = "/users"
@@ -24,7 +24,7 @@ class DBConn():
         #Checking if user already exists
         if res != None:
             print 'current records ',res
-            return "Failed: User already Exists" 
+            return "False" 
      
         user = {}
         user["_id"] = email
@@ -34,9 +34,9 @@ class DBConn():
 	request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(user)+ "' http://" + self.host + ":" + str(self.port) + uri
 
         response = os.popen(request).read()
-        return "Success: User Created"
+        return "True"
 
-
+#Get details of a user
     def getUser(self,email):
         uri = "/users"
         request = "curl -X GET -H 'Accept: application/json' http://" + self.host + ":" + str(self.port) + uri+ "/"+email
@@ -47,6 +47,7 @@ class DBConn():
             return res
         return None
 
+#User Login
     def userSignIn(self,email,pwd):
         res = self.getUser(email)
         if res != None:
@@ -54,15 +55,17 @@ class DBConn():
                 return True
         return False
     
+#Update the details of a User    
     def updateUser(self,fname,lname,email,pwd):
         res = self.getUser(email)
+        uri = "/users"
         if res == None:
             return False
         res["fname"] = fname
         res["lname"] = lname
         res["pwd"] = pwd
         #rev = res["_rev"]
-        request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(user)+ "' http://" + self.host + ":" + str(self.port) + uri
+        request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(res)+ "' http://" + self.host + ":" + str(self.port) + uri
 
         response = os.popen(request).read()
         return True
