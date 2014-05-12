@@ -13,5 +13,5 @@ echo -e "\n** starting service from $PIN_HOME **\n"
 export PYTHONPATH=${PIN_HOME}/moo:${PYTHONPATH}
 
 # run
-#python ${PIN_HOME}/moo/moo.py ${PIN_HOME} ${PIN_HOME}/conf/moo.conf
-python ${PIN_HOME}/moo/run.py ${PIN_HOME} ${PIN_HOME}/conf/moo.conf
+#python ${PIN_HOME}/pinitup/moo.py ${PIN_HOME} ${PIN_HOME}/conf/moo.conf
+python ${PIN_HOME}/pinitup/run.py ${PIN_HOME} ${PIN_HOME}/conf/moo.conf
