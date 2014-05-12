@@ -16,7 +16,7 @@ if len(sys.argv) > 2:
   boardsetup(base,conf_fn)
   usersetup(base,conf_fn)
   
-  run(host='127.0.0.1', port=8080)
+  run(host='192.168.0.28', port=8080)
 else:
   print "usage:", sys.argv[0],"[base_dir] [conf file]"
 

@@ -1,9 +1,6 @@
 '''
 Created on May 5, 2014
-
-@author: chitra
 File for userController - Login and Register
-
 '''
 
 # bottle framework

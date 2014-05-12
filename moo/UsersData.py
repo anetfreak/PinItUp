@@ -31,7 +31,7 @@ class UsersData(object):
          raise Exception("configuration file not found.")
 
       # create storage
-      self.dbconn = DBConn("127.0.0.1",8954)
+      self.dbconn = DBConn("127.0.0.1",5984)
      
      #
      # login method for user
