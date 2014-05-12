@@ -49,7 +49,7 @@ class Board(object):
            if result == True:
                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
                # Create response to Client
-               url = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+               url = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards = {}
                urlgetBoards['url'] = url
                urlgetBoards['method'] = 'GET'
@@ -63,7 +63,7 @@ class Board(object):
                deleteBoard['method'] = 'DELETE'
          
                createPin = {}
-               createPin['url'] = url + '/pins/'
+               createPin['url'] = url + 'pins/'
                createPin['method'] = 'POST'
             
                list = [urlgetBoards, updateBoard, deleteBoard, createPin]
@@ -143,7 +143,7 @@ class Board(object):
             result = self.dbconn.updateBoard(userId, boardName, boardDesc, category, isPrivate)
             if result == True:
                 print '** Please find links for Viewing Board Details/ Updating Board/ Deleting Board/ Creating a pin on the Board **'
-                url = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+                url = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                 urlgetBoards = {}
                 urlgetBoards['url'] = url
                 urlgetBoards['method'] = 'GET'
@@ -179,11 +179,11 @@ class Board(object):
            if result == True:
                print '** Please find links for Viewing Board Details/ Creating a new Board **'
                urlgetBoards = {}
-               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+               urlgetBoards['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards['method'] = 'GET'
            
                createBoard = {}
-               createBoard['url'] = 'users/'+ userId+ '/boards/'
+               createBoard['url'] = '/users/'+ userId+ '/boards/'
                createBoard['method'] = 'POST'
            
                listBoards = [urlgetBoards, createBoard]
