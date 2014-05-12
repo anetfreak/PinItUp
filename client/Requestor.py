@@ -40,3 +40,30 @@ def httpRequest(host, port, body, uri, method):
         print "Error occurred with status code " + str(r1.status)
         return False
     conn.close()
+    
+def formRequest(uri, method):
+    if method == 'POST' or method == 'PUT':
+        if uri.find("/boards/") != -1 and uri.find("/pins/") != -1:
+            #Pin Flow
+            print "Pin Post/ Put requests"
+            name = raw_input("Pin Name: ").strip()
+            desc = raw_input("Pin Desc: ").strip()
+            image = raw_input("Image: ").strip()
+            data = "pinName=" + name + "&description="+ desc + "&image=" + image
+            return data
+        elif uri.find("/boards/") != -1 and uri.find("/comment/") != -1:
+            #Pin Flow
+            print "Comment Post/ Put requests"
+            desc = raw_input("Comment: ").strip()
+            data = "description="+ desc
+            return data
+        elif uri.find("/boards/") != -1:
+            #Pin Flow
+            print "Boards Post/Put request received"
+            name = raw_input("Board Name: ").strip()
+            desc = raw_input("Board Desc: ").strip()
+            category = raw_input("Category: ").strip()
+            isPrivate = raw_input("private?: ").strip()
+            data = "boardName=" + name + "&boardDesc="+ desc + "&category=" + category + "&isPrivate=" + isPrivate
+            return data
+    

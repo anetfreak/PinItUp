@@ -1,6 +1,5 @@
 import sys
 import Requestor
-import SubMenu
 sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
@@ -62,9 +61,10 @@ if __name__ == '__main__':
             uri = request[0]
             method = request[1]
             method = method.upper()
-            if method == 'POST':
+            if method == 'POST' or method == 'PUT':
+                data = Requestor.formRequest(uri, method)
                 status = Requestor.httpRequest(host, port, data, uri, method)
-            elif method == 'GET':
+            elif method == 'GET' or method == 'DELETE':
                 status = Requestor.httpRequest(host, port, None, uri, method)
             
             if status:
