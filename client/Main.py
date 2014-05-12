@@ -31,7 +31,7 @@ if __name__ == '__main__':
             #Login to PinItUp
             username = raw_input("Username: ").strip()
             password = raw_input("Password: ").strip()
-            status = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
+            status = Requestor.httpRequest(host, port,"username="+username+"&password="+password , "/users/login/", "POST")
             if status:
                 authenticated = True
             else:
@@ -42,7 +42,7 @@ if __name__ == '__main__':
             password = raw_input("Password: ").strip()
             fname = raw_input("First Name: ").strip()
             lname = raw_input("Last Name: ").strip()
-            status = Requestor.httpPostRequest(host, port,"emailId="+email+"&password="+password+"&firstName="+fname+"&lastName="+lname , "/users/signup/")
+            status = Requestor.httpRequest(host, port,"emailId="+email+"&password="+password+"&firstName="+fname+"&lastName="+lname , "/users/signup/", "POST")
             if status:
                 authenticated = True
                 username = email
@@ -50,7 +50,7 @@ if __name__ == '__main__':
                 username = None
         elif choice == 4:
             #Logout
-            status = Requestor.httpGetRequest(host, port, "/users/" + username + "/logout/")
+            status = Requestor.httpRequest(host, port, None, "/users/" + username + "/logout/", "GET")
             if status:
                 authenticated = False
                 username = None
@@ -63,9 +63,9 @@ if __name__ == '__main__':
             method = request[1]
             method = method.upper()
             if method == 'POST':
-                status = Requestor.httpPostRequest(host, port, data, uri)
+                status = Requestor.httpRequest(host, port, data, uri, method)
             elif method == 'GET':
-                status = Requestor.httpGetRequest(host, port, uri)
+                status = Requestor.httpRequest(host, port, None, uri, method)
             
             if status:
                 print "Success!"

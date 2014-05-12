@@ -12,35 +12,12 @@ import httplib
 #     return json.dumps(response)
 
 
-def httpPostRequest(host, port, data, uri):
+def httpRequest(host, port, body, uri, method):
     conn = httplib.HTTPConnection(host + ":" + port)
-    conn.request("POST", uri, data)
-    r1 = conn.getresponse()
-    if r1.status == 200 or r1.status == 201:
-        try:
-            data = r1.read()
-            data = data.replace("\'", "\"")
-            jsonResp = json.loads(data)
-            print "\nSuccess!"
-            print "URL's that you can navigate next to -> "
-            for item in jsonResp:
-                for key, value in item.iteritems():
-                    print key + " - \"" + value + "\""
-                print ""
-            return True
-        except:
-            print "\nFailure"
-            print sys.exc_info()[0]
-            return False
+    if method == 'POST' or method == 'PUT':
+        conn.request(method, uri, body)
     else:
-        print "\nFailure"
-        print "Error occurred with status code " + str(r1.status)
-        return False
-    conn.close()
-
-def httpGetRequest(host, port, uri):
-    conn = httplib.HTTPConnection(host + ":" + port)
-    conn.request("GET", uri)
+        conn.request(method, uri)
     r1 = conn.getresponse()
     if r1.status == 200 or r1.status == 201:
         try:
@@ -48,7 +25,6 @@ def httpGetRequest(host, port, uri):
             data = data.replace("\'", "\"")
             jsonResp = json.loads(data)
             print "\nSuccess!"
-            print""
             print "URL's that you can navigate next to -> "
             for item in jsonResp:
                 for key, value in item.iteritems():

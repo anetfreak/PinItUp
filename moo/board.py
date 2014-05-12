@@ -32,10 +32,10 @@ def createBoard(id):
 #
 #return all the boards for a User
 #
-@route('/users/<UserId>/boards/', method='GET')
-def listBoards(UserId):
-    print '--> List boards for a user : ',UserId
-    return board.getBoards(UserId)
+@route('/users/<id>/boards/', method='GET')
+def listBoards(id):
+    print '--> List boards for a user : ',id
+    return board.getBoards(id)
 
 #
 #Return single board for a user
