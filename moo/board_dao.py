@@ -19,7 +19,7 @@ class DBConn():
         return "Success: Create DB Connection"
 
     def createBoard(self,userId, boardName, boardDesc, category, isPrivate):
-        #Get previous Board record for this userId from DB
+        #Get previous Board record for this userId from userboards in DB
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
         response = os.popen(request).read()
         #print 'current records ',response
@@ -65,7 +65,7 @@ class DBConn():
         uri = "/boarddetails"
         data = {}
         data["userId"] = userId
-        data["_id"] = boardName
+        data["_id"] = str(userId)+boardName
         data["boardDesc"] = boardDesc
         data["category"] = category
         data["isPrivate"] = isPrivate
@@ -84,7 +84,7 @@ class DBConn():
     #get board details based on board name
     #returns dictonary of board details
     def getBoardDetails(self, userId,boardName):
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+boardName
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+str(userId)+boardName
         response = os.popen(request).read()
         return json.loads(response)
         
@@ -98,7 +98,7 @@ class DBConn():
             rev = prev["_rev"]
         else:
             return "Success: No record found for delete"
-        request = 'curl -X DELETE -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+boardName+'?rev='+rev
+        request = 'curl -X DELETE -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+str(userId)+boardName+'?rev='+rev
         response = os.popen(request).read()
         #print 'DELETE Board: ', response
         #Get previous Board record for this userId from DB
