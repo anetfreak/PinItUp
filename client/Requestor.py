@@ -33,11 +33,12 @@ def httpRequest(host, port, body, uri, method):
             jsonResp = json.loads(data) #Handle exception for this line..
             print jsonResp
             print "\nSuccess!"
+            print ""
             
             for item in jsonResp:
                 item = item.lower()
                 if item == "links":
-                    print "URL's that you can navigate next to -> "
+                    print " == URL's that you can navigate next to == "
                     link = jsonResp[item]
                     for l in link:
                         for key, value in l.iteritems():
@@ -45,7 +46,7 @@ def httpRequest(host, port, body, uri, method):
                                 print key + " - \"" + value + "\""
                         print ""
                 if item == "boards" or item == "pins" or item == "comments":
-                    print item + " that user has -> "
+                    print "== " + item + " that user has == "
                     boards = jsonResp[item]
                     for b in boards:
                         for key, value in b.iteritems():
@@ -56,7 +57,7 @@ def httpRequest(host, port, body, uri, method):
                     #print "Boards that user has -> "
                     boards = jsonResp[item]
                     templinks = None
-                    print "Single " + item + " -> "
+                    print "== Single " + item + " == "
                     for key, value in boards.iteritems():
                         if key != None and value != None:
                             if key == "links":
@@ -64,7 +65,7 @@ def httpRequest(host, port, body, uri, method):
                             else:
                                 print key + " - " + value
                     print ""
-                    print "URL's that you can navigate next to -> "
+                    print "== URL's that you can navigate next to == "
                     if templinks != None:
                         for links in templinks:
                             for lk, lv in links.iteritems():
