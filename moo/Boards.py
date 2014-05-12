@@ -98,7 +98,7 @@ class Board(object):
              else:
                  boards = {}
                  boards["board"] = boardlist
-                 return str(boardlist)
+                 return str(boards)
          except:
              return 'Failed.!'
 
