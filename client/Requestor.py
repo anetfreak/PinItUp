@@ -70,6 +70,13 @@ def httpRequest(host, port, body, uri, method):
                         for key, value in p.iteritems():
                             print key + " - " + value
                         print ""
+                if item == "comments":
+                    print "comments for a board -> "
+                    comments = jsonResp[item]
+                    for c in comments:
+                        for key, value in c.iteritems():
+                            print key + " - " + value
+                        print ""
             return True
         #except:
         else:
