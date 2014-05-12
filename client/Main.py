@@ -4,6 +4,7 @@ sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
     
+    username = None
     #Configure Server
     print "Enter the Server Endpoint Details: "
     host = raw_input("Enter host: ")
@@ -16,11 +17,11 @@ if __name__ == '__main__':
         print "   Welcome to PinItUp!"
         print "   =====================\n"
         print "Choose one of the options below:"
-        print "1. Login to PinItUp"
-        print "2. SignUp with PinItUp"
-        if (authenticated):
-            print "3. Pins"
-            print "4. Boards"
+        if authenticated:
+            print "3. Logout"
+        else:
+            print "1. Login to PinItUp"
+            print "2. SignUp with PinItUp"
         print "99. Quit"
       
         choice = int(raw_input("\nYour Option -> "))
@@ -31,61 +32,18 @@ if __name__ == '__main__':
             status = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
             if status:
                 authenticated = True
-                
+            else:
+                username = None    
         elif choice == 2:
             #Signup with PinItUp
-            print "Sign up functionality coming soon.."
+            username = raw_input("Username: ").strip()
+            password = raw_input("Password: ").strip()
         elif choice == 3:
-            #Handling Pin functionality here
-            pinMenu = True
-            while pinMenu:
-                print "Choose one of the following Pin operations: "
-                print "a. Create a new Pin"
-                print "b. View all Pins"
-                print "c. Modify a Pin"
-                print "d. Delete a Pin"
-                print "e. Go Back"
-                menuItem = raw_input("\nYour Option -> ")
-                if menuItem == "a":
-                    #Create Pin
-                    print "Pin created.."
-                elif menuItem == "b":
-                    #Create Pin
-                    print "All pins.."
-                elif menuItem == "c":
-                    #Create Pin
-                    print "Pin modified.."
-                elif menuItem == "d":
-                    #Create Pin
-                    print "Pin deleted.."
-                elif menuItem == "e":
-                    pinMenu = False
-            
-        elif choice == 4:
-            #Handling Pin functionality here
-            boardMenu = True
-            while boardMenu:
-                print "Choose one of the following Board operations: "
-                print "a. Create a new Board"
-                print "b. View all Boards"
-                print "c. Modify a Board"
-                print "d. Delete a Board"
-                print "e. Go Back"
-                menuItem = raw_input("\nYour Option -> ")
-                if menuItem == 'a':
-                    #Create Board
-                    print "Board created.."
-                elif menuItem == 'b':
-                    #View all Boards
-                    print "All boards.."
-                elif menuItem == 'c':
-                    #Modify Board
-                    print "Board modified.."
-                elif menuItem == 'd':
-                    #Delete Board
-                    print "Board deleted.."
-                elif menuItem == 'e':
-                    boardMenu = False
+            #Logout
+            status = Requestor.httpGetRequest(host, port, "/users/" + username + "/logout/")
+            if status:
+                authenticated = False
+                username = None
         elif choice == 99:
             print "Bye!"
             running = False
