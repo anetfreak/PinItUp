@@ -68,10 +68,10 @@ class Pin(object):
                return '** No pins exist for the Board : ' + boardName
            else:
                listPinDetails = []
-               for pinName in listPins
-                   if pinName != None
+               for pinName in listPins:
+                   if pinName != None:
                        pindetails = self.dbconn.getPinDetails(userId,boardName,pinName)
-                       if pindetails != None
+                       if pindetails != None:
                            listPinDetails.append(pindetails)
                pins = {}
                pins["Pins"] = listPinDetails
