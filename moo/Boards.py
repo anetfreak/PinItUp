@@ -59,7 +59,7 @@ class Board(object):
                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
                # Create response to Client
                urlgetBoards = {}
-               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName, '/'
+               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards['method'] = 'GET'
          
                updateBoard = {}

@@ -23,7 +23,9 @@ def httpRequest(host, port, body, uri, method):
         try:
             data = r1.read()
             data = data.replace("\'", "\"")
+            print data
             jsonResp = json.loads(data)
+            print jsonResp
             print "\nSuccess!"
             print "URL's that you can navigate next to -> "
             for item in jsonResp:
