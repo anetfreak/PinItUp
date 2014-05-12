@@ -35,51 +35,42 @@ def httpRequest(host, port, body, uri, method):
             print "\nSuccess!"
             
             for item in jsonResp:
+                item = item.lower()
                 if item == "links":
                     print "URL's that you can navigate next to -> "
                     link = jsonResp[item]
                     for l in link:
                         for key, value in l.iteritems():
-                            print key + " - \"" + value + "\""
+                            if key != None and value != None:
+                                print key + " - \"" + value + "\""
                         print ""
-                if item == "Boards":
-                    print "Boards that user has -> "
+                if item == "boards" or item == "pins" or item == "comments":
+                    print item + " that user has -> "
                     boards = jsonResp[item]
                     for b in boards:
                         for key, value in b.iteritems():
-                            print key + " - " + value
+                            if key != None and value != None:
+                                print key + " - " + value
                         print ""
-                if item == "board":
+                if item == "board" or item == "pin" or item == "comment":
                     #print "Boards that user has -> "
                     boards = jsonResp[item]
                     templinks = None
-                    print "Single Board -> "
+                    print "Single " + item + " -> "
                     for key, value in boards.iteritems():
-                        if key == "links":
-                            templinks = value
-                        else:
-                            print key + " - " + value
+                        if key != None and value != None:
+                            if key == "links":
+                                templinks = value
+                            else:
+                                print key + " - " + value
                     print ""
                     print "URL's that you can navigate next to -> "
                     if templinks != None:
                         for links in templinks:
                             for lk, lv in links.iteritems():
-                                print lk + " - " + lv
+                                if lk != None and lv != None:
+                                    print lk + " - " + lv
                             print ""
-                if item == "pins":
-                    print "pins for a board that user has -> "
-                    pins = jsonResp[item]
-                    for p in pins:
-                        for key, value in p.iteritems():
-                            print key + " - " + value
-                        print ""
-                if item == "comments":
-                    print "comments for a board -> "
-                    comments = jsonResp[item]
-                    for c in comments:
-                        for key, value in c.iteritems():
-                            print key + " - " + value
-                        print ""
             return True
         #except:
         else:
