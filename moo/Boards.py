@@ -78,7 +78,9 @@ class Board(object):
                # print 'DEBUG: reading from DB'
                # self.dbconn.readFromDB("AllBoards",keyObj)
                # Return result to Client
-               return str(list)
+               links = {}
+               links["links"] = list
+               return str(links)
            else:
                return '** BoardName '+boardName+ ' already exists for user '+userId
       except:
