@@ -59,19 +59,19 @@ class Board(object):
                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
                # Create response to Client
                urlgetBoards = {}
-               urlgetBoards['urlgetBoards'] = 'users/'+ userId+ '/boards/'+ boardName, '/'
+               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName, '/'
                urlgetBoards['method'] = 'GET'
          
                updateBoard = {}
-               updateBoard['updateBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+               updateBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                updateBoard['method'] = 'PUT'
             
                deleteBoard = {}
-               deleteBoard['deleteBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+               deleteBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                deleteBoard['method'] = 'DELETE'
          
                createPin = {}
-               createPin['createPin'] = 'users/'+ userId+ '/boards/'+ boardName+ '/pins/'
+               createPin['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/pins/'
                createPin['method'] = 'POST'
             
                list = [urlgetBoards, updateBoard, deleteBoard, createPin]
@@ -111,15 +111,15 @@ class Board(object):
             else :
                 print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
                 updateBoard = {}
-                updateBoard['updateBoard'] = '/users/'+ userid+ '/boards/'+ boardname+ '/'
+                updateBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/'
                 updateBoard['method'] = 'PUT'
             
                 deleteBoard = {}
-                deleteBoard['deleteBoard'] = '/users/'+ userid+ '/boards/'+ boardname, '/'
+                deleteBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname, '/'
                 deleteBoard['method'] = 'DELETE'
             
                 createPin = {}
-                createPin['createPin'] = '/users/'+ userid+ '/boards/'+ boardname+ '/pins/'
+                createPin['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/pins/'
                 createPin['method'] = 'POST'
             
                 listBoards = [updateBoard, deleteBoard, createPin]
@@ -137,19 +137,19 @@ class Board(object):
             result = self.dbconn.updateBoard(userId, boardName, boardDesc, category, isPrivate)
             if result == True:
                 urlgetBoards = {}
-                urlgetBoards['urlgetBoards'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+                urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                 urlgetBoards['method'] = 'GET'
             
                 updateBoard = {}
-                updateBoard['updateBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+                updateBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                 updateBoard['method'] = 'PUT'
              
                 deleteBoard = {}
-                deleteBoard['deleteBoard'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+                deleteBoard['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                 deleteBoard['method'] = 'DELETE'
             
                 createPin = {}
-                createPin['createPin'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
+                createPin['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
                 createPin['method'] = 'POST'
             
                 listBoards = [updateBoard, deleteBoard, createPin]
@@ -169,11 +169,11 @@ class Board(object):
            result = self.dbconn.deleteBoard(userId, boardName)
            if result == True:
                urlgetBoards = {}
-               urlgetBoards['urlgetBoards'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
+               urlgetBoards['url'] = 'users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards['method'] = 'GET'
            
                createBoard = {}
-               createBoard['createBoard'] = 'users/'+ userId+ '/boards/'
+               createBoard['url'] = 'users/'+ userId+ '/boards/'
                createBoard['method'] = 'POST'
            
                listBoards = [urlgetBoards, createBoard]
