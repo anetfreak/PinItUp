@@ -52,7 +52,9 @@ class UsersData(object):
                print '*** Log In Successful.! ***'
                print 'Please find links for Get/Add Boards'
                print '-------------------------------------- \n\n'
-               return str(listBoards)
+               links = {}
+               links["links"] = listBoards
+               return str(links)
            else:
                print 'User does not exist.!'
        except:
@@ -73,8 +75,10 @@ class UsersData(object):
             signup['url'] = '/users/signup/'
             signup['method'] = 'POST'
             
-            list = [urllogin, signup]
-            return str(list)
+            listlinks = [urllogin, signup]
+            links = {}
+            links["links"] = listlinks
+            return str(links)
         except:
             return 'Failure!'
         
@@ -98,7 +102,9 @@ class UsersData(object):
                 urllogin['url'] = '/users/login/'
                 urllogin['method'] = 'POST'
                 listLogin = [urllogin]
-                return str(listLogin)
+                links = {}
+                links["links"] = listLogin
+                return str(links)
             else:
                 return False
         except:
