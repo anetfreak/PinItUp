@@ -92,11 +92,13 @@ class Board(object):
    def getBoards(self, userId):
          print '--> getBoards for user', userId
          try:
-             list = self.dbconn.getUserBoards(userId)
-             if list == None:
+             boardlist = self.dbconn.getUserBoards(userId)
+             if boardlist == None:
                  return 'No Boards exist for the user '+userId
              else:
-                 return str(list)
+                 boards = {}
+                 boards["board"] = boardlist
+                 return str(boardlist)
          except:
              return 'Failed.!'
 
@@ -107,8 +109,8 @@ class Board(object):
    def getABoard(self, userid, boardname):
         print '--> Get a single Board'
         try:
-            list = self.dbconn.getBoardDetails(userid, boardname)
-            if list == None:
+            board_keyvalue = self.dbconn.getBoardDetails(userid, boardname)
+            if board_keyvalue == None:
                 return 'No Board Details for '+boardname + 'for user '+userid
             else :
                 print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
@@ -124,8 +126,13 @@ class Board(object):
                 createPin['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/pins/'
                 createPin['method'] = 'POST'
             
-                listBoards = [updateBoard, deleteBoard, createPin]
-                return str(listBoards)
+                listlinks = [updateBoard, deleteBoard, createPin]
+                
+                board_keyvalue["links"] = listlinks
+                
+                boards = {}
+                boards["board"] = board_keyvalue
+                return str(boards)
             
         except:
             return 'Failed.!'
@@ -154,8 +161,10 @@ class Board(object):
                 createPin['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'
                 createPin['method'] = 'POST'
             
-                listBoards = [updateBoard, deleteBoard, createPin]
-                return str(listBoards)
+                listlinks = [updateBoard, deleteBoard, createPin]
+                links = {}
+                links["links"] = listlinks
+                return str(links)
             else:
                 return 'No Board found with the BoardName : '+boardName + ' for user '+userId
           
