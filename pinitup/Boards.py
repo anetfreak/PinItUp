@@ -90,9 +90,9 @@ class Board(object):
              else:
                  boardDetails = []
                  for item in boardlist:
-                     if item != None
+                     if item != None:
                          res = self.dbconn.getBoardDetails(userId, item)
-                         if res != None
+                         if res != None:
                              boardDetails.append(res)
                  boards = {}
                  boards["Boards"] = boardDetails
