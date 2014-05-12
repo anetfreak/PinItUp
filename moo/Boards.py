@@ -115,7 +115,7 @@ class Board(object):
                 updateBoard['method'] = 'PUT'
             
                 deleteBoard = {}
-                deleteBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname, '/'
+                deleteBoard['url'] = '/users/'+ userid+ '/boards/'+ boardname+ '/'
                 deleteBoard['method'] = 'DELETE'
             
                 createPin = {}
