@@ -1,5 +1,6 @@
 import sys
 import Requestor
+import SubMenu
 sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
@@ -29,8 +30,10 @@ if __name__ == '__main__':
             #Login to PinItUp
             username = raw_input("Username: ").strip()
             password = raw_input("Password: ").strip()
-            status = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
-            if status:
+            resp = Requestor.httpPostRequest(host, port,"username="+username+"&password="+password , "/users/login/")
+            if resp != None:
+                option = SubMenu.showSubMenu(resp)
+                SubMenu.processRequest(host, port, option)
                 authenticated = True
             else:
                 username = None    

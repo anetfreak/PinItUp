@@ -1,4 +1,5 @@
 # from subprocess import os
+import sys
 import json
 import httplib
 
@@ -22,19 +23,15 @@ def httpPostRequest(host, port, data, uri):
             jsonResp = json.loads(data)
             print "\nSuccess!"
             print""
-            print "URL's that you can navigate next to -> "
-            for item in jsonResp:
-                for key, value in item.iteritems():
-                    print key + " - \"" + value + "\""
-                print ""
-            return True
+            return jsonResp
         except:
             print "\nFailure"
-            return False
+            print sys.exc_info()[0]
+            return None
     else:
         print "\nFailure"
         print "Error occurred with status code " + str(r1.status)
-        return False
+        return None
     conn.close()
 
 def httpGetRequest(host, port, uri):
@@ -56,6 +53,7 @@ def httpGetRequest(host, port, uri):
             return True
         except:
             print "\nFailure"
+            print sys.exc_info()[0]
             return False
     else:
         print "\nFailure"
