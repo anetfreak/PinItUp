@@ -31,7 +31,7 @@ class Board(object):
          raise Exception("configuration file not found.")
 
       # create storage
-      self.dbconn = DBConn()
+      self.dbconn = DBConn("127.0.0.1",8954)
       
       
       # self.__store = Storage()
