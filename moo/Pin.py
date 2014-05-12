@@ -4,7 +4,8 @@ import socket
 import StringIO
 import json
 
-# from data.storage import Storage
+# from pin_dao import DBConn
+from pin_dao import DBConn
 
 class Pin(object):
    # very limited content negotiation support - our format choices 
