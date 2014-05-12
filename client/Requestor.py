@@ -20,22 +20,52 @@ def httpRequest(host, port, body, uri, method):
         conn.request(method, uri)
     r1 = conn.getresponse()
     if r1.status == 200 or r1.status == 201:
-        try:
+        #try:
+        if True == True:
             data = r1.read()
             data = data.replace("\'", "\"")
-            print data
+            data = data.replace("u\"", "\"")
+            #data = '{"board":["board1","board2"]}'
+            print 'data is ',data
             jsonResp = json.loads(data)
             print jsonResp
             print "\nSuccess!"
-            print "URL's that you can navigate next to -> "
+            
             for item in jsonResp:
-                link = jsonResp[item]
-                for l in link:
-                    for key, value in l.iteritems():
-                        print key + " - \"" + value + "\""
+                if item == "links":
+                    print "URL's that you can navigate next to -> "
+                    link = jsonResp[item]
+                    for l in link:
+                        for key, value in l.iteritems():
+                            print key + " - \"" + value + "\""
+                        print ""
+                if item == "Boards":
+                    print "Boards that user has -> "
+                    boards = jsonResp[item]
+                    for b in boards:
+                        for key, value in b.iteritems():
+                            print key + " - " + value
+                        print ""
+                if item == "board":
+                    #print "Boards that user has -> "
+                    boards = jsonResp[item]
+                    templinks = None
+                    print "Boards that user has -> "
+                    for key, value in boards.iteritems():
+                        if key == "links":
+                            templinks = value
+                        else:
+                            print key + " - " + value
                     print ""
+                    print "URL's that you can navigate next to -> "
+                    if templinks != None:
+                        for links in templinks:
+                            for lk, lv in links.iteritems():
+                                print lk + " - " + lv
+                            print ""
             return True
-        except:
+        #except:
+        else:
             print "\nFailure"
             print sys.exc_info()[0]
             return False

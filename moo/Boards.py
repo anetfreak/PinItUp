@@ -82,16 +82,21 @@ class Board(object):
 # Return All the boards for a UserId
    def getBoards(self, userId):
          print '--> getBoards for user', userId
-         try:
+         #try:
+         if True == True:
              boardlist = self.dbconn.getUserBoards(userId)
              if boardlist == None:
                  return '** No Boards exist for the user '+userId
              else:
+                 boardDetails = []
+                 for item in boardlist:
+                     res = self.dbconn.getBoardDetails(userId, item)
+                     boardDetails.append(res)
                  boards = {}
-                 boards["board"] = boardlist
+                 boards["Boards"] = boardDetails
                  return str(boards)
-         except:
-             return 'Failed.!'
+         #except:
+         #    return 'Failed.!'
 
 
 #
