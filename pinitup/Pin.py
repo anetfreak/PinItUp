@@ -85,8 +85,8 @@ class Pin(object):
    def getAPin(self, userId, boardName, pinId):
        print'--> Get a Pin detail on a board'
        try:
-           list = self.dbconn.getPinDetails(userId, boardName, pinId)
-           if list == None:
+           pindetails = self.dbconn.getPinDetails(userId, boardName, pinId)
+           if pindetails == None:
                return '** No pin details exist for the Pin : ' + pinId
            else :
                print '** Please find links for Updating Pin Details/ Deleting Pin/ Adding a comment on the Pin **'
@@ -102,9 +102,13 @@ class Pin(object):
                comments = {}
                comments['url'] = url
                comments['method'] = 'POST'
-           
-               pins = [updatePin, deletePin, comments]
-               return str(pins)
+               
+               
+               listlink = [updatePin, deletePin, comments]
+               pindetails["links"] = listlink
+               resp = {}
+               resp["board"] = pindetails
+               return str(resp)
        except:
            return 'Failure.!'
        
@@ -129,8 +133,10 @@ class Pin(object):
                updatePin['url'] = url + pinName + '/'
                updatePin['method'] = 'PUT'
        
-               pins = [pinDetails, createPin, updatePin]
-               return str(pins)
+               listlinks = [pinDetails, createPin, updatePin]
+               links = {}
+               links["links"] = listlinks
+               return str(links)
            else:
                return '** Pin not updated.! **'
        except:
@@ -154,8 +160,10 @@ class Pin(object):
                 createPin['url'] = url
                 createPin['method'] = 'POST'
             
-                deletePins = [pinDetails, createPin]
-                return str(deletePins)
+                listlinks = [pinDetails, createPin]
+                links = {}
+                links["links"] = listlinks
+                return str(links)
             else :
                 return '** Pin cannot be deleted.! **'
         except:
