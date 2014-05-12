@@ -48,6 +48,8 @@ class Comments(object):
           deleteComment['method'] = 'DELETE'
             
           listComments = [updateComment, deleteComment]
+          links = {}
+          links["links"] = listComments
           return str(listComments)
          
       except:
@@ -59,13 +61,13 @@ class Comments(object):
    def getComments(self,userId, boardName, pinName):
        print '--> getComments for Pin: '+ pinName
        try:
-           commentList = self.dbconn.getUserBoardPinComments(userId, boardName, pinName)
-           if commentList == None:
+           commentDetails = self.dbconn.getUserBoardPinComments(userId, boardName, pinName)
+           if commentDetails == None:
                return '** No comments exists for this pin.! **'
            else:
                comments = {}
-               comments["board"] = commentList
-               return str(commentList)
+               comments["Comments"] = commentDetails
+               return str(comments)
        except:
              return 'Failed.!'
     
@@ -102,7 +104,9 @@ class Comments(object):
                 createComment['method'] = 'POST'
             
                 deleteComments = [commentDetails, createComment]
-                return str(deleteComments)
+                links = {}
+                links["links"] = deleteComments
+                return str(links)
             else :
                 return '** Comment cannot be deleted.! **'
         except:
