@@ -50,7 +50,7 @@ class UsersData(object):
                print '-------------------------------------- \n\n'
                return str(listBoards)
            else:
-               print 'User does not exists.!'
+               print 'User does not exist.!'
        except:
            print 'Error Encountered in Login..!'
 
