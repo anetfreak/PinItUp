@@ -6,6 +6,7 @@ import json
 
 # moo 
 # from data.storage import Storage
+from user_dao import DBConn
 
 class UsersData(object):
    # very limited content negotiation support - our format choices 
@@ -29,6 +30,8 @@ class UsersData(object):
       else:
          raise Exception("configuration file not found.")
 
+      # create storage
+      self.dbconn = DBConn("127.0.0.1",8954)
      
      #
      # login method for user
@@ -36,12 +39,13 @@ class UsersData(object):
    def login(self, username, password):
        print '--> Login check for username : ', username, 'and password --> ', password
        try:
-           if username == "admin":
+           result = self.dbconn.userSignIn(username, password)
+           if result == True:
                urlgetBoard = {}
-               urlgetBoard['urlgetBoard'] = '/users/'+username+'/boards/'
+               urlgetBoard['url'] = '/users/'+username+'/boards/'
                urlgetBoard['method'] = 'GET'
                urladdBoard = {}
-               urladdBoard['urladdBoard'] = '/users/'+username+'/boards/'
+               urladdBoard['url'] = '/users/'+username+'/boards/'
                urladdBoard['method'] = 'POST'
                listBoards = [urlgetBoard, urladdBoard]
                print '--------------------------------------'
@@ -58,15 +62,15 @@ class UsersData(object):
     #Logout
     #
    def logout(self, username):
-        print '--> LogOut for user : ',username
+        print '--> Logout for user : ',username
         try:
             urllogin = {}
-            urllogin['urllogin'] = '/users/login/'
+            urllogin['url'] = '/users/login/'
             urllogin['method'] = 'POST'
             listLogin = [urllogin]
             
             signup = {}
-            signup['signup'] = '/users/signup/'
+            signup['url'] = '/users/signup/'
             signup['method'] = 'POST'
             
             list = [urllogin, signup]
@@ -86,13 +90,17 @@ class UsersData(object):
         print 'Password : ', password
         print '--------------------------------------'
         try:
-            print '\n \n** Congrats..! You are a registered User of PinItUp.! **'
-            print 'Please find link for login \n \n'
-            urllogin = {}
-            urllogin['urllogin'] = '/users/login/'
-            urllogin['method'] = 'POST'
-            listLogin = [urllogin]
-            return str(listLogin)
+            result = self.dbconn.userSignUp(firstName, lastName, emailId, password)
+            if result == True:
+                print '\n \n** Congrats..! You are now a registered User of PinItUp.! **'
+                print 'Please find link for login \n \n'
+                urllogin = {}
+                urllogin['url'] = '/users/login/'
+                urllogin['method'] = 'POST'
+                listLogin = [urllogin]
+                return str(listLogin)
+            else:
+                return False
         except:
             print '--> Error encountered in SignUp.!'
 

@@ -24,7 +24,7 @@ class DBConn():
         #Checking if user already exists
         if res != None:
             print 'current records ',res
-            return "False" 
+            return False
      
         user = {}
         user["_id"] = email
@@ -34,7 +34,7 @@ class DBConn():
 	request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(user)+ "' http://" + self.host + ":" + str(self.port) + uri
 
         response = os.popen(request).read()
-        return "True"
+        return True
 
 #Get details of a user
     def getUser(self,email):
