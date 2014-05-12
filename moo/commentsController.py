@@ -8,7 +8,7 @@ from Comments import Comments
 
 comments = None
 
-def pinsetup(base,conf_fn):
+def commentsetup(base,conf_fn):
     print '\n**** comments initialization ****\n'
     global pin 
     comments = Comments(base,conf_fn)
@@ -22,27 +22,35 @@ def root():
 # Adding a comments to a pin
 #
 @route('/users/<userId>/boards/<boardName>/pins/<pinId>/comment/', method='POST')
-def createPin(userId, boardName, pinId):
+def createComment(userId, boardName, pinId):
     print '---> create comment for the pin :',pinId
     description = request.forms.get('description')
-    return comments.add(userId, boardName, pinId)
+    return comments.add(userId, boardName, pinId, description)
 
 #
-#Get list of pins for a particular board
+#Get list of comments for a particular pin
 #
-@route('/users/<userId>/<boardName>/pins/', method='GET')
-def getPins(userId, boardName):
-    print '--> Retrieving all pins for the Board'
-    return pin.getPins(userId, boardName)
+@route('/users/<userId>/<boardName>/pins/<pinId>/comment/', method='GET')
+def getComments(userId, boardName, pinId):
+    print '--> Retrieving all comments for the Pin: '+pinId
+    return comments.getComments(userId, boardName, pinId)
 
 #
-# Get a single pin details for a board from DB
+#Update a comment based on pin name
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='GET')
-def getAPin(userId, boardName, pinId):
-    print '--> Retrieving details of a pin on the board from DB'
-    return pin.getAPin(userId,boardName, pinId)
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>/<commentId>', method='PUT')
+def updateComment(userId, boardName, pinId, commentId):
+    print '---> Update comment for a pin : '+pinId
+    description = request.forms.get('description')
+    return comments.updateComment(commentId, description)
 
+#
+# Delete a pin
+#
+@route('/users/<userId>/boards/<boardName>/pins/<pinId>/<commentId>', method='DELETE')
+def deleteComment(userId, boardName, pinId, commentId):
+    print '--> Delete a comment for user :',userId , 'in pin : ', pinId
+    return comments.deleteComment(userId, boardName, pinId, commentId)
 
 
 def __format(request):
@@ -77,7 +85,3 @@ def __response_format(reqfmt):
             return "application/json"
         else:
             return "*/*"
-            
-        # TODO
-      # xml: application/xhtml+xml, application/xml
-      # image types: image/jpeg, etc

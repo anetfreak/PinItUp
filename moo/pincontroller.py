@@ -62,7 +62,7 @@ def updatePin(userId, boardName, pinId):
 @route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='DELETE')
 def deletePin(userId, boardName, pinId):
     print '--> Delete a pin for user :',userId , 'in board : ', boardName
-    return deletePin(userId, boardName, pinId)
+    return pin.deletePin(userId, boardName, pinId)
 
 
 def __format(request):

@@ -85,6 +85,7 @@ class DBConn():
             return res["commentId"]
         else:
             return None
+        
     def getUserBoardPinComments(self, userId, boardName, pinName):
         commentIds = self.getUserBoardPinCommentIds(userId, boardName, pinName)
         comments = []
@@ -102,6 +103,7 @@ class DBConn():
             return res
         else:
             return None
+        
     def getAllComment(self, listId):
         comments = []
         for commentId in listId:

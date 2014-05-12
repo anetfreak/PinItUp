@@ -5,15 +5,12 @@ import StringIO
 import json
 
 # from data.storage import Storage
+from comments_dao import DBConn
 
 class Comments(object):
-   # very limited content negotiation support - our format choices 
-   # for output. This also shows _a way_ of representing enums in python
    json, xml, html, text = range(1, 5)
    
-   #
    # setup the configuration for our service
-   #
    def __init__(self, base, conf_fn):
       self.host = socket.gethostname()
       self.base = base
@@ -28,24 +25,24 @@ class Comments(object):
       else:
          raise Exception("Configuration file not found..")
 
-      # create storage
-      # self.__store = Storage()
-
+      self.dbconn = DBConn("127.0.0.1",5984)
+      
 #
 # Add comment to a pin
 #
-   def add(self, userId, boardName, pinId):
+   def add(self, userId, boardName, pinId, description):
       print '---> comments.add: userId:', userId, ' boardName:', boardName, 'pinId:', pinId
       try:
-          #generate a commentId  after adding a comment to the pin in the DB
-          commentId = 0 #to be changed
+          result = self.dbconn.createComment(userId, boardName, pinId, description)
+          commentId = result
           
+          url = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
           updateComment = {}
-          updateComment['updateComment'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
+          updateComment['url'] = url
           updateComment['method'] = 'PUT'
             
           deleteComment = {}
-          deleteComment['deleteComment'] = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
+          deleteComment['url'] = url
           deleteComment['method'] = 'DELETE'
             
           listComments = [updateComment, deleteComment]
@@ -55,40 +52,60 @@ class Comments(object):
          return 'failed'
 
 #
-# Retreive all pins for a board
+# Retrieve all comments for a Pin
 #
-   def getPins(self,userId, boardName):
-       print '--> getPins for board', boardName
+   def getComments(self,userId, boardName, pinName):
+       print '--> getComments for Pin: '+ pinName
        try:
-           #TODO : fetch list of pins for a board from DB
-           return str(list)
+           commentList = self.dbconn.getUserBoardPinComments(userId, boardName, pinName)
+           if commentList == None:
+               return '** No comments exists for this pin.! **'
+           else:
+               comments = {}
+               comments["board"] = commentList
+               return str(commentList)
        except:
              return 'Failed.!'
     
-    
-   #
-   #Retreive details of a pin
-   #
-   def getAPin(self, userId, boardName, pinId):
-       print'--> get a pin details on a board'
-       #TODO : fetch the board details from the db
-       print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
-       updatePin = {}
-       updatePin['updatePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
-       updatePin['method'] = 'PUT'
-           
-       deletePin = {}
-       deletePin['deletePin'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
-       deletePin['method'] = 'DELETE'
-           
-       comments = {}
-       comments['comments'] = '/users/'+userId+'/boards/'+boardName+'/pins/'+pinId+'/'
-       comments['method'] = 'POST'
-           
-       pins = [updatePin, deletePin, comments]
-       return str(pins)
+#
+# Update a comment based on commentId
+#    
+   def updateComment(self, commentId, description):
+        print '--> Update comment for CommentID: '+commentId
+        try:
+            result = self.dbconn.updateComment(commentId, description)
+            if result == True:
+                return '** Comment updated.! **'
+            else:
+                return '** Cannot update comment..! **'
+        except:
+            return 'Failed.!'
 
+#
+# Delete a comment for a user for a pin
+#                
+   def deleteComment(self, userId, boardName, pinId, commentId):
+        print '--> Delete a comment'
+        try:
+            result = self.dbconn.deleteComment(userId, boardName, pinId, commentId)
+            if result == True:
+                url = '/users/' + userId + '/boards/' + boardName + '/pins/'+ pinId + '/comment/'
+                commentDetails = {}
+                commentDetails['url'] = url
+                commentDetails['method'] = 'GET'
             
+                createComment = {}
+                createComment['url'] = url
+                createComment['method'] = 'POST'
+            
+                deleteComments = [commentDetails, createComment]
+                return str(deleteComments)
+            else :
+                return '** Comment cannot be deleted.! **'
+        except:
+            return 'Failed.!'
+        
+        
    #
    # output as xml is supported through other packages. If
    # you want to add xml support look at gnosis or lxml.
@@ -127,8 +144,6 @@ class Comments(object):
         return str
       finally:
         sb.close()
-
-#
       return "text"
 
    #
