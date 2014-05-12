@@ -48,8 +48,10 @@ class Pin(object):
               deletePin['url'] = url
               deletePin['method'] = 'DELETE'
             
-              listPins = [pinDetails, updatePin, deletePin]
-              return str(listPins)
+              listlinks = [pinDetails, updatePin, deletePin]
+              links = {}
+              links["links"] = listlinks
+              return str(links)
           else:
               return '** Pin cannot be created.! **'
          
@@ -61,11 +63,19 @@ class Pin(object):
    def getPins(self, userId, boardName):
        print '--> Get all pins for BoardName :' + boardName
        try:
-           list = self.dbconn.getUserBoardPins(userId, boardName)
-           if list == None:
+           listPins = self.dbconn.getUserBoardPins(userId, boardName)
+           if listPins == None:
                return '** No pins exist for the Board : ' + boardName
            else:
-               return str(list)
+               listPinDetails = []
+               for pinName in listPins
+                   if pinName != None
+                       pindetails = self.dbconn.getPinDetails(userId,boardName,pinName)
+                       if pindetails != None
+                           listPinDetails.append(pindetails)
+               pins = {}
+               pins["Pins"] = listPinDetails
+               return str(pins)
        except:
              return 'Failed.!'
     
