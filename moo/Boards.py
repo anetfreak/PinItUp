@@ -188,7 +188,9 @@ class Board(object):
                createBoard['method'] = 'POST'
            
                listBoards = [urlgetBoards, createBoard]
-               return str(listBoards)
+               links = {}
+               links["links"] = listBoards
+               return str(links)
            else:
                return 'Board cannot be deleted.!'
        
