@@ -8,48 +8,51 @@ class DBConn():
 
     def createConn(self):
         #Create new table userpins
-        uri = "/userpins"
+        uri = "/userboardpins"
         request = "curl -X PUT http://" + self.host + ":" + str(self.port) + uri
         response = os.popen(request).read()
 
         #Create new table pinsdetails
-        uri = "/pinsdetails"
+        uri = "/pindetails"
         request = "curl -X PUT http://" + self.host + ":" + str(self.port) + uri
         response = os.popen(request).read()
         return "Success: Create DB Connection"
 
 #create a new pin
     def createPin(self,userId, pinName, pinDesc, image, boardName):
-        #Get previous Board record for this userId from DB
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userpins/'+str(userId)
-        response = os.popen(request).read()
-        #print 'current records ',response
-        res = json.loads(response)
-        prev_boards = None     #is a list of boards
-        rev = None             #is a _rev returned in query
-        if "_rev" in res.keys():
-            rev = res.get("_rev")
-        if "boardName" in res.keys():
-            prev_boards = res["boardName"]
+        #Check if Pin already exists
+        response = self.getPinDetails(userId,boardName,pinName)
+        if response != None:
+            print 'current records ',response
+            return False
         
-
-        #Create new json data to be inserted for this userId to DB
+        #insert pin to userboardpins table
+        #prev_pins = self.getUserBoardPins(userId, boardName)
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboardpins/'+str(userId)+boardName
+        response = os.popen(request).read()
+        res = json.loads(response)
+        rev = None
+        prev_pins = None
+        if "_rev" in res.keys():
+            rev = res["_rev"]
+        if "pinName" in res.keys():
+            prev_pins = res["pinName"]
+        #Create new json data to be inserted for this userId and boardName to DB
         data = {}
-        data["_id"] = str(userId)
+        data["_id"] = str(userId)+boardName
         #print 'Prev boards ',prev_boards
-        if prev_boards != None:
-            if boardName in prev_boards:
-                return "Failed: Record Already Exists"
+        if prev_pins != None:
+            if pinName in prev_pins:
+                return False
             else:
-                print 'I am here'
-                boards = prev_boards
-                boards.append(boardName)
+                pins = prev_pins
+                pins.append(pinName)
                 
         else:
-            boards = [boardName]
-        data["boardName"] = boards
-
-        uri = "/userboards"
+            pins = [pinName]
+        data["pinName"] = pins
+        
+        uri = "/userboardpins"
         #Need rev number to update the record, if rev is None then it is first record
         if rev == None:
             request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
@@ -63,74 +66,86 @@ class DBConn():
         #print 'Response is: ', response
 
         #Insert Board Details in table boardDetails
-        uri = "/boarddetails"
+        uri = "/pindetails"
         data = {}
         data["userId"] = userId
-        data["_id"] = boardName
-        data["boardDesc"] = boardDesc
-        data["category"] = category
-        data["isPrivate"] = isPrivate
+        data["boardName"] = boardName
+        data["_id"] = str(userId)+boardName+pinName
+        data["pinDesc"] = pinDesc
+        data["image"] = image
+
         request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
         #print 'New request is ',request
         response = os.popen(request).read()
         #print 'Response is: ', response
-        return "Success: Create Board"
+        return True
 
-    #returns boards list for user Id
-    def getUserBoards(self, userId):
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
+    #returns pin list for userId and boardName
+    def getUserBoardPins(self, userId, boardName):
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboardpins/'+str(userId)+boardName
         response = os.popen(request).read()
-        return json.loads(response)["boardName"]
+        res = json.loads(response)
+        if "_id" in res.keys():
+            return res["pinName"]
+        else:
+            return None
 
-    #get board details based on board name
-    #returns dictonary of board details
-    def getBoardDetails(self, userId,boardName):
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+boardName
+    #get pin details based on userId and boardName
+    #returns dictonary of pin details
+    def getPinDetails(self, userId,boardName,pinName):
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/pindetails/'+str(userId)+boardName+pinName
         response = os.popen(request).read()
-        return json.loads(response)
+        res = json.loads(response)
+        if "_id" in res.keys():
+            return res
+        return None
         
 
     #delete by board name from both tables user boards and board details TODO need to delete all pins for that board
-    def deleteBoard(self, userId, boardName):
-        prev = self.getBoardDetails(userId,boardName)
+    def deletePin(self, userId, boardName, pinName):
+        prev = self.getPinDetails(userId,boardName, pinName)
         #print ' Prev record for delete: ', prev
         rev = None
         if "_rev" in prev.keys():
             rev = prev["_rev"]
         else:
-            return "Success: No record found for delete"
-        request = 'curl -X DELETE -H "Accept: application/json" http://127.0.0.1:5984/boarddetails/'+boardName+'?rev='+rev
+            return False
+        request = 'curl -X DELETE -H "Accept: application/json" http://127.0.0.1:5984/pindetails/'+str(userId)+boardName+pinName+'?rev='+rev
         response = os.popen(request).read()
-        #print 'DELETE Board: ', response
+        
         #Get previous Board record for this userId from DB
-        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
+        request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboardpins/'+str(userId)+boardName
         response = os.popen(request).read()
-        print 'current records ',response
+        #print 'current records ',response
         res = json.loads(response)
-        rev = res.get("_rev")
-        prev_boards = res["boardName"]
+        if res == None:
+            return False
+        if "_rev" in res.keys():
+            rev = res.get("_rev")
+        else:
+            return False
+        prev_pins = res["pinName"]
         
 
         #Create new json data to be inserted for this userId to DB
         data = {}
-        data["_id"] = str(userId)
+        data["_id"] = str(userId)+boardName
         #print 'Prev boards ',prev_boards
-        if prev_boards != None:
-            if boardName in prev_boards:
-                print 'I am here'
-                boards = prev_boards
-                boards.remove(boardName)       
+        if prev_pins != None:
+            if pinName in prev_pins:
+                pins = prev_pins
+                pins.remove(pinName)       
             else:
-                return "Success: record not there in User Boards"
+                return False
         else:
-            return "Success: record not there in User Boards"
+            return False
 
-        data["boardName"] = boards
+        data["pinName"] = pins
 
-        uri = "/userboards"
+        uri = "/userboardpins"
         #Need rev number to update the record, if rev is None then it is first record
         if rev == None:
-            return "Success: record not there in User Boards"
+            return False
         else:
             data["_rev"] = str(rev)
             request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
@@ -139,45 +154,45 @@ class DBConn():
         #print 'New request is ',request
         response = os.popen(request).read()
         #print 'Response is: ', response
-        return 'Success: Board deleted'
+        return True
 
     #update board details based on board name, update of board name not supported
-    def updateBoard(self,userId, boardName, boardDesc, category, isPrivate):
-        data = self.getBoardDetails(userId,boardName)
+    def updatePin(self,userId, pinName, pinDesc, image, boardName):
+        data = self.getPinDetails(userId,boardName,pinName)
         #Insert Board Details in table boardDetails
-        uri = "/boarddetails"
-        #data = {}
+        uri = "/pindetails"
+        if data == None:
+            return False
         rev = None
         if "_rev" in data.keys():
             rev = data["_rev"]
         else:
-            return 'Failed: Record not found to update'
+            return False
 
-        data["userId"] = userId
-        #data["_id"] = boardName    #do not change this in update
-        data["boardDesc"] = boardDesc
-        data["category"] = category
-        data["isPrivate"] = isPrivate
+        data["pinDesc"] = pinDesc
+        data["image"] = image
         request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
         #print 'New request is ',request
         response = os.popen(request).read()
         #print 'Response is: ', response
 
-        return "Success: board updated"
+        return True
 
 if __name__ == "__main__":
     dbconn = DBConn("127.0.0.1",5984)
 
     for i in range(10):
-        dbconn.createBoard(i,"board"+str(i),"my private board","test",True)
-    	res = dbconn.getBoardDetails(i,"board"+str(i))
-    	print 'Board details: ',res
-    	res = dbconn.getBoardDetails(i,"board"+str(i))
-    	print 'Board details: ',res
-    	res = dbconn.getBoardDetails(i,"board"+str(i))
-    	print 'Board details: ',res
-    	res = dbconn.deleteBoard(i, "board"+str(i))
-    	print 'Delete board: ', res
-    	res = dbconn.updateBoard(i,"board"+str(i),"I have been updated","test",True)
-    	print 'Update board: ', res
+        res = dbconn.createPin(i,"pin"+str(i),"my pin","image"+str(i),"board"+str(i))
+        print 'Pin Created: ',res
+    	res = dbconn.getPinDetails(i,"board"+str(i),"pin"+str(i))
+    	print 'Pin details: ',res
+    	res = dbconn.getUserBoardPins(i, "board"+str(i))
+    	print 'Total Pins: ',res
+    	
+    	#res = dbconn.deleteBoard(i, "board"+str(i))
+    	#print 'Delete board: ', res
+    	res = dbconn.updatePin(i,"pin"+str(i),"updated pin","image"+str(i),"board"+str(i))
+    	print 'Update Pin: ', res
+        res = dbconn.deletePin(i,"board"+str(i),"pin"+str(i))
+    	print 'Delete Pin: ',res
 
