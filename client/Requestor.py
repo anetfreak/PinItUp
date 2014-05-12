@@ -3,6 +3,9 @@ import sys
 import json
 import httplib
 
+# 
+# Method to call Curl commands via code..
+#
 # def makeRequest(uri, host, port, data):
 #     if (data == None):
 #         request = "curl -i -H 'Accept: application/json' http://" + host + ":" + str(port) + uri
@@ -26,8 +29,8 @@ def httpRequest(host, port, body, uri, method):
             data = data.replace("\'", "\"")
             data = data.replace("u\"", "\"")
             #data = '{"board":["board1","board2"]}'
-            print 'data is ',data
-            jsonResp = json.loads(data)
+            print 'Data is ', data
+            jsonResp = json.loads(data) #Handle exception for this line..
             print jsonResp
             print "\nSuccess!"
             
