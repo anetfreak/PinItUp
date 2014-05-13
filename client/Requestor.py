@@ -86,7 +86,13 @@ def httpRequest(host, port, body, uri, method):
     
 def formRequest(uri, method):
     if method == 'POST' or method == 'PUT':
-        if uri.find("/boards/") != -1 and uri.find("/pins/") != -1:
+        if uri.find("/boards/") != -1 and uri.find("/pins/") != -1 and uri.find("/comment/") != -1:
+            #Comments Flow
+            print "Comment Post/ Put requests"
+            desc = raw_input("Comment: ").strip()
+            data = "description="+ desc
+            return data
+        elif uri.find("/boards/") != -1 and uri.find("/pins/") != -1:
             #Pin Flow
             print "Pin Post/ Put requests"
             if method != 'PUT':
@@ -97,12 +103,6 @@ def formRequest(uri, method):
                 data = "pinName=" + name + "&description="+ desc + "&image=" + image
             else:
                 data = "description="+ desc + "&image=" + image
-            return data
-        elif uri.find("/boards/") != -1 and uri.find("/comment/") != -1:
-            #Comments Flow
-            print "Comment Post/ Put requests"
-            desc = raw_input("Comment: ").strip()
-            data = "description="+ desc
             return data
         elif uri.find("/boards/") != -1:
             #Boards Flow
