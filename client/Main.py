@@ -30,7 +30,8 @@ if __name__ == '__main__':
             #Login to PinItUp
             username = raw_input("Username: ").strip()
             password = raw_input("Password: ").strip()
-            status = Requestor.httpRequest(host, port,"username="+username+"&password="+password , "/users/login/", "POST")
+            uri = raw_input("URI: ").strip()
+            status = Requestor.httpRequest(host, port,"username="+username+"&password="+password , uri, "POST")
             if status:
                 authenticated = True
             else:
@@ -41,7 +42,20 @@ if __name__ == '__main__':
             password = raw_input("Password: ").strip()
             fname = raw_input("First Name: ").strip()
             lname = raw_input("Last Name: ").strip()
-            status = Requestor.httpRequest(host, port,"emailId="+email+"&password="+password+"&firstName="+fname+"&lastName="+lname , "/users/signup/", "POST")
+            uri = raw_input("URI: ").strip()
+            json = raw_input("JSON Format(y/n): ").strip()
+            json = json.lower()
+            if json == 'n':
+                data = "emailId="+email+"&password="+password+"&firstName="+fname+"&lastName="+lname
+            else:
+                data = {}
+                data["emailId"] = email
+                data["password"] = password
+                data["firstName"] = fname
+                data["lastName"] = lname
+            
+            print data
+            status = Requestor.httpRequest(host, port, data , uri, "POST")
             if status:
                 authenticated = True
                 username = email
