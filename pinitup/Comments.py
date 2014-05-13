@@ -35,10 +35,10 @@ class Comments(object):
       try:
           result = self.dbconn.createComment(userId, boardName, pinId, description)
           commentId = result
-          
+          print '-----------------------------------------------------------------'
           print '** Please find links for Updating Comment / Deleting Comment**'
-          
-          url = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'
+          print '-----------------------------------------------------------------'
+          url = '/users/'+ userId+ '/boards/'+ boardName+ '/pins/'+pinId+'/comment/'+commentId
           updateComment = {}
           updateComment['url'] = url
           updateComment['method'] = 'PUT'
@@ -94,7 +94,9 @@ class Comments(object):
         try:
             result = self.dbconn.deleteComment(userId, boardName, pinId, commentId)
             if result == True:
+                print '-----------------------------------------------------------------'
                 print '** Please find links for Viewing Comments/ Adding a Comment **'
+                print '-----------------------------------------------------------------'
                 url = '/users/' + userId + '/boards/' + boardName + '/pins/'+ pinId + '/comment/'
                 commentDetails = {}
                 commentDetails['url'] = url

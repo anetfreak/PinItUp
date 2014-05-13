@@ -81,7 +81,11 @@ class DBConn():
         #TODO : return NONE or list
         request = 'curl -X GET -H "Accept: application/json" http://127.0.0.1:5984/userboards/'+str(userId)
         response = os.popen(request).read()
-        return json.loads(response)["boardName"]
+        res = json.loads(response)
+        if res != None:
+            if "boardName" in res.keys():
+                return json.loads(response)["boardName"]
+        return None
 
     #get board details based on board name
     #returns dictonary of board details

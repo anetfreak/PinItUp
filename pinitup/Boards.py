@@ -47,7 +47,9 @@ class Board(object):
 #          bins = self.dbconn.createBins_general(bin_name, values, types, 5)
 #          self.dbconn.writeToDB("AllBoards", keyObj, bins, 5)
            if result == True:
+               print '------------------------------------------------------------------------------------------'
                print 'Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board'
+               print '------------------------------------------------------------------------------------------'
                # Create response to Client
                url = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards = {}
@@ -110,7 +112,9 @@ class Board(object):
             if board_keyvalue == None:
                 return '** No Board Details for '+boardname + 'for user '+userid
             else :
+                print '------------------------------------------------------------------------------------------------'
                 print '** Please find links for Updating Board Details/ Deleting Board/ Creating a pin on the Board **'
+                print '------------------------------------------------------------------------------------------------'
                 url = '/users/'+ userid+ '/boards/'+ boardname+ '/'
                 updateBoard = {}
                 updateBoard['url'] = url
@@ -143,7 +147,9 @@ class Board(object):
         if True == True:
             result = self.dbconn.updateBoard(id, boardname, boardDesc, category, isPrivate)
             if result == True:
+                print '----------------------------------------------------------------------------------------------------------------'
                 print '** Please find links for Viewing Board Details/ Updating Board/ Deleting Board/ Creating a pin on the Board **'
+                print '----------------------------------------------------------------------------------------------------------------'
                 url = '/users/'+ id+ '/boards/'+ boardname+ '/'
                 urlgetBoards = {}
                 urlgetBoards['url'] = url
@@ -178,7 +184,9 @@ class Board(object):
        try:
            result = self.dbconn.deleteBoard(userId, boardName)
            if result == True:
+               print '-----------------------------------------------------------------------'
                print '** Please find links for Viewing Board Details/ Creating a new Board **'
+               print '-----------------------------------------------------------------------'
                urlgetBoards = {}
                urlgetBoards['url'] = '/users/'+ userId+ '/boards/'+ boardName+ '/'
                urlgetBoards['method'] = 'GET'

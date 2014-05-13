@@ -35,7 +35,9 @@ class Pin(object):
       if True==True:
           result = self.dbconn.createPin(userId, pinName, pinDesc, image, boardName)
           if result == True:
+              print '--------------------------------------------------------------------------------------------'
               print '** Please find links for Viewing Pin Details/ Updating Pin Details/ Deleting Pin Details **'
+              print '--------------------------------------------------------------------------------------------'
               url = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinName + '/'
               pinDetails = {}
               pinDetails['url'] = url
@@ -94,7 +96,9 @@ class Pin(object):
            if pindetails == None:
                return '** No pin details exist for the Pin : ' + pinId
            else :
+               print '--------------------------------------------------------------------------------------------'
                print '** Please find links for Updating Pin Details/ Deleting Pin/ Adding a comment on the Pin **'
+               print '--------------------------------------------------------------------------------------------'
                url = '/users/' + userId + '/boards/' + boardName + '/pins/' + pinId + '/'
                updatePin = {}
                updatePin['url'] = url
@@ -124,7 +128,9 @@ class Pin(object):
        try:
            result = self.dbconn.updatePin(userId, pinName, pinDesc, image, boardName)
            if result == True:
+               print '----------------------------------------------------------------------------------'
                print '** Please find links for Viewing Pin Details/ Adding a Pin/ Updating Pin Details**'
+               print '----------------------------------------------------------------------------------'
                url ='/users/' + userId + '/boards/' + boardName + '/pins/'
                pinDetails = {}
                pinDetails['url'] = url
@@ -155,7 +161,9 @@ class Pin(object):
         try:
             result = self.dbconn.deletePin(userId, boardName, pinId)
             if result == True:
+                print '-----------------------------------------------------------------'
                 print '** Please find links for Viewing Pin Details/ Adding a new Pin **'
+                print '-----------------------------------------------------------------'
                 url = '/users/' + userId + '/boards/' + boardName + '/pins/'
                 pinDetails = {}
                 pinDetails['url'] = url

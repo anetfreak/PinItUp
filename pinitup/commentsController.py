@@ -50,8 +50,8 @@ def updateComment(id, boardname, pinId, commentId):
 #
 # Delete a pin
 #
-@route('/users/<id>/boards/<boardname>/pins/<pinId>/<commentId>/', method='DELETE')
-@route('/users/<id>/boards/<boardname>/pins/<pinId>/<commentId>', method='DELETE')
+@route('/users/<id>/boards/<boardname>/pins/<pinId>/comment/<commentId>/', method='DELETE')
+@route('/users/<id>/boards/<boardname>/pins/<pinId>/comment/<commentId>', method='DELETE')
 def deleteComment(id, boardname, pinId, commentId):
     print '--> Delete a comment for user :',id , 'in pin : ', pinId
     return comments.deleteComment(id, boardname, pinId, commentId)
