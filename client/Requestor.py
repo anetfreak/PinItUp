@@ -89,7 +89,8 @@ def formRequest(uri, method):
         if uri.find("/boards/") != -1 and uri.find("/pins/") != -1:
             #Pin Flow
             print "Pin Post/ Put requests"
-            name = raw_input("Pin Name: ").strip()
+            if method != 'PUT':
+                name = raw_input("Pin Name: ").strip()
             desc = raw_input("Pin Desc: ").strip()
             image = raw_input("Image: ").strip()
             data = "pinName=" + name + "&description="+ desc + "&image=" + image
@@ -103,7 +104,8 @@ def formRequest(uri, method):
         elif uri.find("/boards/") != -1:
             #Boards Flow
             print "Boards Post/Put request received"
-            name = raw_input("Board Name: ").strip()
+            if method != 'PUT':
+                name = raw_input("Board Name: ").strip()
             desc = raw_input("Board Desc: ").strip()
             category = raw_input("Category: ").strip()
             isPrivate = raw_input("private?: ").strip()
