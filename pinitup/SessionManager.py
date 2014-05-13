@@ -6,7 +6,7 @@ import json
 import time
 
 from session_dao import DBConn
-class SessionManager(object):
+class SessionManager():
     def __init__(self):
         self.dbconn = DBConn("127.0.0.1",5984)
         self.sessionCache = []
@@ -42,8 +42,9 @@ class SessionManager(object):
                
     def removeSessionCache(self, userId):
         if self.curr_size > 0:
-            self.sessionCache.remove(userId)
-            self.curr_size = self.curr_size - 1
+            if self.isSessionExists(userId):
+                self.sessionCache.remove(userId)
+                self.curr_size = self.curr_size - 1
             
     def addSessionCache(self, userId):
         if self.curr_size < self.max_size:

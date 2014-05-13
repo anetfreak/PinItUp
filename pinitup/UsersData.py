@@ -7,7 +7,7 @@ import json
 # moo 
 # from data.storage import Storage
 from user_dao import DBConn
-
+from SessionManager import SessionManager
 class UsersData(object):
    # very limited content negotiation support - our format choices 
    # for output. This also shows _a way_ of representing enums in python
@@ -32,7 +32,7 @@ class UsersData(object):
 
       # create storage
       self.dbconn = DBConn("127.0.0.1",5984)
-     
+      self.session = SessionManager()
      #
      # login method for user
      #
@@ -41,6 +41,9 @@ class UsersData(object):
        try:
            result = self.dbconn.userSignIn(username, password)
            if result == True:
+               if not self.session.isSessionExists(username):
+                   self.session.addSession(username)
+                   
                urlgetBoard = {}
                urlgetBoard['url'] = '/users/'+username+'/boards/'
                urlgetBoard['method'] = 'GET'
@@ -66,6 +69,7 @@ class UsersData(object):
    def logout(self, username):
         print '--> Logout for user : ',username
         try:
+            self.session.removeSessionCache(username)    
             urllogin = {}
             urllogin['url'] = '/users/login/'
             urllogin['method'] = 'POST'

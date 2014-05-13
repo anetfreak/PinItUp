@@ -6,7 +6,7 @@ import json
 
 # from data.storage import Storage
 from comments_dao import DBConn
-
+from SessionManager import SessionManager
 class Comments(object):
    json, xml, html, text = range(1, 5)
    
@@ -26,11 +26,13 @@ class Comments(object):
          raise Exception("Configuration file not found..")
 
       self.dbconn = DBConn("127.0.0.1",5984)
-      
+      self.session = SessionManager()
 #
 # Add comment to a pin
 #
    def add(self, userId, boardName, pinId, description):
+      if not self.session.isSessionExists(userId):
+          return "Login First!!"
       print '---> comments.add: userId:', userId, ' boardName:', boardName, 'pinId:', pinId
       try:
           result = self.dbconn.createComment(userId, boardName, pinId, description)
@@ -59,6 +61,8 @@ class Comments(object):
 # Retrieve all comments for a Pin
 #
    def getComments(self,userId, boardName, pinName):
+       if not self.session.isSessionExists(userId):
+           return "Login First!!"
        print '--> getComments for Pin: '+ pinName
        try:
            commentDetails = self.dbconn.getUserBoardPinComments(userId, boardName, pinName)
@@ -90,6 +94,8 @@ class Comments(object):
 # Delete a comment for a user for a pin
 #                
    def deleteComment(self, userId, boardName, pinId, commentId):
+        if not self.session.isSessionExists(userId):
+            return "Login First!!"
         print '--> Delete a comment'
         try:
             result = self.dbconn.deleteComment(userId, boardName, pinId, commentId)

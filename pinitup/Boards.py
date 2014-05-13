@@ -5,7 +5,7 @@ import StringIO
 import json
 
 from board_dao import DBConn
-
+from SessionManager import SessionManager
 class Board(object):
    json, xml, html, text = range(1, 5)
 
@@ -25,9 +25,12 @@ class Board(object):
          raise Exception("configuration file not found.")
 
       self.dbconn = DBConn("127.0.0.1",5984)
+      self.session = SessionManager()
 
 
    def createBoard(self, userId, boardName, boardDesc, category, isPrivate):
+      if not self.session.isSessionExists(userId):
+           return "Login First!!"  
       print '---> board.add: boardName:', boardName, ' boardDesc:', boardDesc, ' category:', category, ' isPrivate:', isPrivate
       try:
          # Insert userId and Board mapping in DB (key = User Id)
@@ -83,8 +86,10 @@ class Board(object):
 #
 # Return All the boards for a UserId
    def getBoards(self, userId):
-         print '--> getBoards for user', userId
-         #try:
+      if not self.session.isSessionExists(userId):
+         return "Login First!!"  
+      print '--> getBoards for user', userId
+      try:
          if True == True:
              boardlist = self.dbconn.getUserBoards(userId)
              if boardlist == None:
@@ -99,13 +104,15 @@ class Board(object):
                  boards = {}
                  boards["Boards"] = boardDetails
                  return str(boards)
-         #except:
-         #    return 'Failed.!'
+      except:
+          return 'Failed.!'
 
 
 #
 # Return a single board value for a UserID
    def getABoard(self, userid, boardname):
+        if not self.session.isSessionExists(userid):
+           return "Login First!!"  
         print '--> Get a single Board'
         try:
             board_keyvalue = self.dbconn.getBoardDetails(userid, boardname)
@@ -142,6 +149,8 @@ class Board(object):
 #
 # Update a Board's Details
    def updateBoard(self, id, boardname, boardDesc, category, isPrivate):
+        if not self.session.isSessionExists(id):
+           return "Login First!!"  
         print '--> Update a Board'
 #         try:
         if True == True:
@@ -180,6 +189,8 @@ class Board(object):
 #
 #delete from board
    def deleteBoard(self, userId, boardName):
+       if not self.session.isSessionExists(userId):
+          return "Login First!!"  
        print '--> Delete a Board'
        try:
            result = self.dbconn.deleteBoard(userId, boardName)

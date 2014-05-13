@@ -5,7 +5,7 @@ import json
 
 # from pin_dao import DBConn
 from pin_dao import DBConn
-
+from SessionManager import SessionManager
 class Pin(object):
    json, xml, html, text = range(1, 5)
 
@@ -25,11 +25,13 @@ class Pin(object):
          raise Exception("Configuration file not found..")
 
       self.dbconn = DBConn("127.0.0.1", 5984)
-      
+      self.session = SessionManager()
 #
 # add a new pin
 #
    def add(self, userId, pinName, pinDesc, image, boardName):
+      if not self.session.isSessionExists(userId):
+          return "Login First!!"
       print '---> pin.add: userId:', userId, ' pinDesc:', pinDesc, 'pinName: ', pinName, 'image:', image, ' boardName:', boardName
 #       try:
       if True==True:
@@ -68,6 +70,8 @@ class Pin(object):
 #
 # Retrieve all pins for a board
    def getPins(self, userId, boardName):
+       if not self.session.isSessionExists(userId):
+          return "Login First!!"
        print '--> Get all pins for BoardName :' + boardName
        try:
            listPins = self.dbconn.getUserBoardPins(userId, boardName)
@@ -90,6 +94,8 @@ class Pin(object):
    #
    # Retrieve details of a pin
    def getAPin(self, userId, boardName, pinId):
+       if not self.session.isSessionExists(userId):
+          return "Login First!!"
        print'--> Get a Pin detail on a board'
        try:
            pindetails = self.dbconn.getPinDetails(userId, boardName, pinId)
@@ -124,6 +130,8 @@ class Pin(object):
    #
    # Update a Pin for a Board
    def updatePin(self, userId, pinName, pinDesc, image, boardName):
+       if not self.session.isSessionExists(userId):
+          return "Login First!!"
        print '--> Update a Pin'
        try:
            result = self.dbconn.updatePin(userId, pinName, pinDesc, image, boardName)
@@ -157,6 +165,8 @@ class Pin(object):
     #
     # Delete a Pin for a Board
    def deletePin(self, userId, boardName, pinId):
+        if not self.session.isSessionExists(userId):
+            return "Login First!!"
         print '--> Delete a pin'
         try:
             result = self.dbconn.deletePin(userId, boardName, pinId)
