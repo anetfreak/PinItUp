@@ -17,48 +17,48 @@ def root():
 #
 # Adding a pin to a board
 #
-@route('/users/<userId>/boards/<boardName>/pins/', method='POST')
-def createPin(userId, boardName):
-    print '---> create Pin for user :',userId , 'in board : ', boardName
+@route('/users/<id>/boards/<boardname>/pins/', method='POST')
+def createPin(id, boardname):
+    print '---> create Pin for user :',id , 'in board : ', boardname
     image = request.forms.get('image')
     pinDesc = request.forms.get('description')
     pinName = request.forms.get('pinName')
-    return pin.add(userId, pinName, pinDesc, image, boardName)
+    return pin.add(id, pinName, pinDesc, image, boardname)
 
 #
 #Get list of pins for a particular board
 #
-@route('/users/<userId>/<boardName>/pins/', method='GET')
-def getPins(userId, boardName):
+@route('/users/<id>/<boardname>/pins/', method='GET')
+def getPins(id, boardname):
     print '--> Retrieving all pins for the Board'
-    return pin.getPins(userId, boardName)
+    return pin.getPins(id, boardname)
 
 #
 # Get a single pin details for a board from DB
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>', method='GET')
-def getAPin(userId, boardName, pinId):
+@route('/users/<id>/boards/<boardname>/pins/<pinId>', method='GET')
+def getAPin(id, boardname, pinId):
     print '--> Retrieving details of a pin on the board from DB'
-    return pin.getAPin(userId,boardName, pinId)
+    return pin.getAPin(id,boardname, pinId)
 
 #
 #Update a pin based on board name
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='PUT')
-def updatePin(userId, boardName, pinId):
-    print '---> create Pin for user :',userId , 'in board : ', boardName
+@route('/users/<id>/boards/<boardname>/pins/<pinId>/', method='PUT')
+def updatePin(id, boardname, pinId):
+    print '---> create Pin for user :',id , 'in board : ', boardname
     image = request.forms.get('image')
     pinDesc = request.forms.get('description')
     pinName = request.forms.get('pinName')
-    return pin.updatePin(userId, pinName, pinDesc, image, boardName)
+    return pin.updatePin(id, pinName, pinDesc, image, boardname)
 
 #
 # Delete a pin
 #
-@route('/users/<userId>/boards/<boardName>/pins/<pinId>/', method='DELETE')
-def deletePin(userId, boardName, pinId):
-    print '--> Delete a pin for user :',userId , 'in board : ', boardName
-    return pin.deletePin(userId, boardName, pinId)
+@route('/users/<id>/boards/<boardname>/pins/<pinId>/', method='DELETE')
+def deletePin(id, boardname, pinId):
+    print '--> Delete a pin for user :',id , 'in board : ', boardname
+    return pin.deletePin(id, boardname, pinId)
 
 
 def __format(request):

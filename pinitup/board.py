@@ -51,10 +51,10 @@ def updateBoard(id, boardname):
  
 
 # Delete a board
-@route('/users/<UserId>/boards/<boardName>/', method='DELETE')
-def deleteBoard(userId, boardName):
-    print '--> Delete Board: ',boardName
-    return board.deleteBoard(userId, boardName)
+@route('/users/<id>/boards/<boardname>/', method='DELETE')
+def deleteBoard(id, boardname):
+    print '--> Delete Board: ',boardname
+    return board.deleteBoard(id, boardname)
 
 
 def __format(request):

@@ -31,7 +31,8 @@ class Pin(object):
 #
    def add(self, userId, pinName, pinDesc, image, boardName):
       print '---> pin.add: userId:', userId, ' pinDesc:', pinDesc, 'pinName: ', pinName, 'image:', image, ' boardName:', boardName
-      try:
+#       try:
+      if True==True:
           result = self.dbconn.createPin(userId, pinName, pinDesc, image, boardName)
           if result == True:
               print '** Please find links for Viewing Pin Details/ Updating Pin Details/ Deleting Pin Details **'
@@ -55,8 +56,8 @@ class Pin(object):
           else:
               return '** Pin cannot be created.! **'
          
-      except:
-         return 'Failed.! '
+#       except:
+#          return 'Failed.! '
 
 #
 # Retrieve all pins for a board
