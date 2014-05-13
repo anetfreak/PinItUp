@@ -1,10 +1,11 @@
-import sys
+import sys, random
 import Requestor
 sys.path.append('/usr/lib')
 
 if __name__ == '__main__':
     
     username = None
+    session = 0
     #Configure Server
     print "Enter the Server Endpoint Details: "
     host = raw_input("Enter host: ")
@@ -33,6 +34,7 @@ if __name__ == '__main__':
             uri = raw_input("URI: ").strip()
             status = Requestor.httpRequest(host, port,"username="+username+"&password="+password , uri, "POST")
             if status:
+                session = random.randint(1, 10000)
                 authenticated = True
             else:
                 username = None    
@@ -69,22 +71,25 @@ if __name__ == '__main__':
                 username = None
         elif choice == 3:
             #Custom URL flow
-            option = raw_input("Enter choice in URL|METHOD format - ").strip()
-            data = None
-            request = option.split("|")
-            uri = request[0]
-            method = request[1]
-            method = method.upper()
-            if method == 'POST' or method == 'PUT':
-                data = Requestor.formRequest(uri, method)
-                status = Requestor.httpRequest(host, port, data, uri, method)
-            elif method == 'GET' or method == 'DELETE':
-                status = Requestor.httpRequest(host, port, None, uri, method)
-            
-            if status:
-                print "Success!"
+            if session > 0:
+                option = raw_input("Enter choice in URL|METHOD format - ").strip()
+                data = None
+                request = option.split("|")
+                uri = request[0]
+                method = request[1]
+                method = method.upper()
+                if method == 'POST' or method == 'PUT':
+                    data = Requestor.formRequest(uri, method)
+                    status = Requestor.httpRequest(host, port, data, uri, method)
+                elif method == 'GET' or method == 'DELETE':
+                    status = Requestor.httpRequest(host, port, None, uri, method)
+                
+                if status:
+                    print "Success!"
+                else:
+                    print "Failure"
             else:
-                print "Failure"
+                print "Need to login first to proceed"
         elif choice == 99:
             print "Bye!"
             running = False
