@@ -1,5 +1,5 @@
 # bottle framework
-from bottle import request, route
+from bottle import request, route, static_file
 from Pin import Pin
 
 pin = None
@@ -24,7 +24,17 @@ def createPin(id, boardname):
     image = request.forms.get('image')
     pinDesc = request.forms.get('description')
     pinName = request.forms.get('pinName')
-    return pin.add(id, pinName, pinDesc, image, boardname)
+    #upload image file
+    filedata = request.files.data
+    imageUrl = ""
+    if filedata and filedata.file:
+        #raw = filedata.file.read()
+        filename = filedata.filename
+        filepath = './static/files'+'/'+id+'/'+boardname+'/'+pinName+'/'+filename
+        with open(filepath,'w') as open_file:
+            open_file.write(filedata.file.read())
+        imageUrl = '/users/'+id+'/boards/'+boardname+'/pins/'+pinName+'/file/'+filename
+    return pin.add(id, pinName, pinDesc, image, boardname, imageUrl)
 
 #
 #Get list of pins for a particular board
@@ -65,6 +75,12 @@ def deletePin(id, boardname, pinId):
     print '--> Delete a pin for user :',id , 'in board : ', boardname
     return pin.deletePin(id, boardname, pinId)
 
+@route('/users/<id>/boards/<boardname>/pins/<pinId>/file/<filename>', method='GET')
+def getImageFile(id,boardname,pinId,filename):
+    filepath = '/'+id+'/'+boardname+'/'+pinId+'/'+filename
+    return static_file(filepath,'./static/files')
+    #return pin.getImageFile(id,boardname,pinId,filename)
+    #return static_file(filepath, root='/path/to/your/static/files')
 
 def __format(request):
     #for key in sorted(request.headers.iterkeys()):

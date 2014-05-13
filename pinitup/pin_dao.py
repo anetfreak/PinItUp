@@ -19,7 +19,7 @@ class DBConn():
         return "Success: Create DB Connection"
 
 #create a new pin
-    def createPin(self,userId, pinName, pinDesc, image, boardName):
+    def createPin(self,userId, pinName, pinDesc, image, boardName, imageUrl):
         #Check if Pin already exists
         response = self.getPinDetails(userId,boardName,pinName)
         if response != None:
@@ -73,6 +73,7 @@ class DBConn():
         data["_id"] = str(userId)+boardName+pinName
         data["pinDesc"] = pinDesc
         data["image"] = image
+        data["imageUrl"] = imageUrl
 
         request = "curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' --data '" +json.dumps(data)+ "' http://" + self.host + ":" + str(self.port) + uri
         #print 'New request is ',request

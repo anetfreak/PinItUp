@@ -6,6 +6,7 @@ import json
 # from pin_dao import DBConn
 from pin_dao import DBConn
 from SessionManager import SessionManager
+
 class Pin(object):
    json, xml, html, text = range(1, 5)
 
@@ -29,13 +30,13 @@ class Pin(object):
 #
 # add a new pin
 #
-   def add(self, userId, pinName, pinDesc, image, boardName):
+   def add(self, userId, pinName, pinDesc, image, boardName, imageUrl):
       if not self.session.isSessionExists(userId):
           return "Login First!!"
       print '---> pin.add: userId:', userId, ' pinDesc:', pinDesc, 'pinName: ', pinName, 'image:', image, ' boardName:', boardName
 #       try:
       if True==True:
-          result = self.dbconn.createPin(userId, pinName, pinDesc, image, boardName)
+          result = self.dbconn.createPin(userId, pinName, pinDesc, image, boardName, imageUrl)
           if result == True:
               print '--------------------------------------------------------------------------------------------'
               print '** Please find links for Viewing Pin Details/ Updating Pin Details/ Deleting Pin Details **'
@@ -233,7 +234,10 @@ class Pin(object):
 
 #
       return "text"
-
+  
+   def getImageFile(self,id,boardname,pinId,filename):
+      #return static_file
+      return True
    #
    #
    #
