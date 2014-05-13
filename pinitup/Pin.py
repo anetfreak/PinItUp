@@ -48,8 +48,12 @@ class Pin(object):
               deletePin = {}
               deletePin['url'] = url
               deletePin['method'] = 'DELETE'
+              
+              addComment = {}
+              addComment['url'] = url + 'comment/'
+              addComment['method'] = 'POST'
             
-              listlinks = [pinDetails, updatePin, deletePin]
+              listlinks = [pinDetails, updatePin, deletePin, addComment]
               links = {}
               links["links"] = listlinks
               return str(links)

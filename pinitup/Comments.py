@@ -76,14 +76,15 @@ class Comments(object):
 #    
    def updateComment(self, commentId, description):
         print '--> Update comment for CommentID: '+commentId
-        try:
+#         try:
+        while True==True:
             result = self.dbconn.updateComment(commentId, description)
             if result == True:
                 return '** Comment updated.! **'
             else:
                 return '** Cannot update comment..! **'
-        except:
-            return 'Failed.!'
+#         except:
+#             return 'Failed.!'
 
 #
 # Delete a comment for a user for a pin

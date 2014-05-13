@@ -16,6 +16,7 @@ def root():
    return '*** Welcome to PinItUp ***'
 
 @route('/users/<id>/boards/', method='POST')
+@route('/users/<id>/boards', method='POST')
 def createBoard(id):
    print '---> create Board for user :',id
    boardName = request.forms.get('boardName')
@@ -27,6 +28,7 @@ def createBoard(id):
 
 #return all the boards for a User
 @route('/users/<id>/boards/', method='GET')
+@route('/users/<id>/boards', method='GET')
 def listBoards(id):
     print '--> List boards for a user : ',id
     return board.getBoards(id)
@@ -34,6 +36,7 @@ def listBoards(id):
 
 #Return single board for a user
 @route('/users/<id>/boards/<boardname>/', method='GET')
+@route('/users/<id>/boards/<boardname>', method='GET')
 def getABoard(id, boardname):
     print '--> retrieve a single board for the userid :',id
     return board.getABoard(id,boardname)
@@ -41,17 +44,19 @@ def getABoard(id, boardname):
 
 # update a board details
 @route('/users/<id>/boards/<boardname>/', method='PUT')
+@route('/users/<id>/boards/<boardname>', method='PUT')
 def updateBoard(id, boardname):
      print '---> Update Board Details :',boardname
-     boardName = request.forms.get('boardName')
+     #boardName = request.forms.get('boardName')
      boardDesc = request.forms.get('boardDesc')
      category = request.forms.get('category')
      isPrivate = request.forms.get('isPrivate')
-     return board.updateBoard(id,boardName, boardDesc, category, isPrivate)
+     return board.updateBoard(id,boardname, boardDesc, category, isPrivate)
  
 
 # Delete a board
 @route('/users/<id>/boards/<boardname>/', method='DELETE')
+@route('/users/<id>/boards/<boardname>', method='DELETE')
 def deleteBoard(id, boardname):
     print '--> Delete Board: ',boardname
     return board.deleteBoard(id, boardname)

@@ -137,13 +137,14 @@ class Board(object):
 
 #
 # Update a Board's Details
-   def updateBoard(self, userId, boardName, boardDesc, category, isPrivate):
+   def updateBoard(self, id, boardname, boardDesc, category, isPrivate):
         print '--> Update a Board'
-        try:
-            result = self.dbconn.updateBoard(userId, boardName, boardDesc, category, isPrivate)
+#         try:
+        if True == True:
+            result = self.dbconn.updateBoard(id, boardname, boardDesc, category, isPrivate)
             if result == True:
                 print '** Please find links for Viewing Board Details/ Updating Board/ Deleting Board/ Creating a pin on the Board **'
-                url = '/users/'+ userId+ '/boards/'+ boardName+ '/'
+                url = '/users/'+ id+ '/boards/'+ boardname+ '/'
                 urlgetBoards = {}
                 urlgetBoards['url'] = url
                 urlgetBoards['method'] = 'GET'
@@ -165,10 +166,10 @@ class Board(object):
                 links["links"] = listlinks
                 return str(links)
             else:
-                return 'No Board found with the BoardName : '+boardName + ' for user '+userId
+                return 'No Board found with the BoardName : '+boardname + ' for user '+id
           
-        except:
-            return 'Failed.!'
+#         except:
+#             return 'Failed.!'
             
 #
 #delete from board
