@@ -23,8 +23,7 @@ def httpRequest(host, port, body, uri, method):
         conn.request(method, uri)
     r1 = conn.getresponse()
     if r1.status == 200 or r1.status == 201:
-        #try:
-        if True == True:
+        try:
             data = r1.read()
             data = data.replace("\'", "\"")
             data = data.replace("u\"", "\"")
@@ -73,8 +72,7 @@ def httpRequest(host, port, body, uri, method):
                                     print lk + " - " + lv
                             print ""
             return True
-        #except:
-        else:
+        except:
             print "\nFailure"
             print sys.exc_info()[0]
             return False
