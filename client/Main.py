@@ -5,7 +5,7 @@ sys.path.append('/usr/lib')
 if __name__ == '__main__':
     
     username = None
-    session = 0
+    session = -1
     #Configure Server
     print "Enter the Server Endpoint Details: "
     host = raw_input("Enter host: ")
@@ -67,6 +67,7 @@ if __name__ == '__main__':
             #Logout
             status = Requestor.httpRequest(host, port, None, "/users/" + username + "/logout/", "GET")
             if status:
+                session = -1
                 authenticated = False
                 username = None
         elif choice == 3:
