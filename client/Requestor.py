@@ -93,7 +93,10 @@ def formRequest(uri, method):
                 name = raw_input("Pin Name: ").strip()
             desc = raw_input("Pin Desc: ").strip()
             image = raw_input("Image: ").strip()
-            data = "pinName=" + name + "&description="+ desc + "&image=" + image
+            if method != 'PUT':
+                data = "pinName=" + name + "&description="+ desc + "&image=" + image
+            else:
+                data = "description="+ desc + "&image=" + image
             return data
         elif uri.find("/boards/") != -1 and uri.find("/comment/") != -1:
             #Comments Flow
@@ -109,6 +112,9 @@ def formRequest(uri, method):
             desc = raw_input("Board Desc: ").strip()
             category = raw_input("Category: ").strip()
             isPrivate = raw_input("private?: ").strip()
-            data = "boardName=" + name + "&boardDesc="+ desc + "&category=" + category + "&isPrivate=" + isPrivate
+            if method != 'PUT':
+                data = "boardName=" + name + "&boardDesc="+ desc + "&category=" + category + "&isPrivate=" + isPrivate
+            else:
+                data = "boardDesc="+ desc + "&category=" + category + "&isPrivate=" + isPrivate
             return data
     
