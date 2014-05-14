@@ -8,10 +8,10 @@ from Comments import Comments
 
 comments = None
 
-def commentsetup(base,conf_fn):
+def commentsetup(base,conf_fn, session):
     print '\n**** comments initialization ****\n'
     global comments
-    comments = Comments(base,conf_fn)
+    comments = Comments(base,conf_fn, session)
 
 @route('/')
 def root():

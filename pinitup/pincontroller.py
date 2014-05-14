@@ -4,10 +4,10 @@ from Pin import Pin
 
 pin = None
 
-def pinsetup(base,conf_fn):
+def pinsetup(base,conf_fn, session):
     print '\n**** pin initialization ****\n'
     global pin 
-    pin = Pin(base,conf_fn)
+    pin = Pin(base,conf_fn, session)
 
 @route('/')
 def root():

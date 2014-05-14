@@ -42,7 +42,7 @@ class SessionManager():
                
     def removeSessionCache(self, userId):
         if self.curr_size > 0:
-            if self.isSessionExists(userId):
+            if userId in self.sessionCache:
                 self.sessionCache.remove(userId)
                 self.curr_size = self.curr_size - 1
             

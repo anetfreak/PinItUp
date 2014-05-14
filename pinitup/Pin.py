@@ -11,7 +11,7 @@ class Pin(object):
    json, xml, html, text = range(1, 5)
 
    # setup the configuration for our service
-   def __init__(self, base, conf_fn):
+   def __init__(self, base, conf_fn, session):
       self.host = socket.gethostname()
       self.base = base
       self.conf = {}
@@ -26,7 +26,7 @@ class Pin(object):
          raise Exception("Configuration file not found..")
 
       self.dbconn = DBConn("127.0.0.1", 5984)
-      self.session = SessionManager()
+      self.session = session
 #
 # add a new pin
 #

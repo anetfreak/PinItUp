@@ -17,7 +17,7 @@ class UsersData(object):
    #
    # setup the configuration for our service
    #
-   def __init__(self, base, conf_fn):
+   def __init__(self, base, conf_fn, session):
       self.host = socket.gethostname()
       self.base = base
       self.conf = {}
@@ -32,7 +32,7 @@ class UsersData(object):
 
       # create storage
       self.dbconn = DBConn("127.0.0.1",5984)
-      self.session = SessionManager()
+      self.session = session
      #
      # login method for user
      #

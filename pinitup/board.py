@@ -5,10 +5,10 @@ from Boards import Board
 # virtual classroom implementation
 board = None
 
-def boardsetup(base,conf_fn):
+def boardsetup(base,conf_fn, session):
    print '\n**** service initialization ****\n'
    global board 
-   board = Board(base,conf_fn)
+   board = Board(base,conf_fn, session)
 
 @route('/')
 def root():

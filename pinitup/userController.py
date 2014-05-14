@@ -10,10 +10,10 @@ from UsersData import UsersData
 # virtual classroom implementation
 user = None
 
-def usersetup(base, conf_fn):
+def usersetup(base, conf_fn, session):
    print '\n**** User initialization ****\n'
    global user 
-   user = UsersData(base, conf_fn)
+   user = UsersData(base, conf_fn, session)
 
 # setup the configuration for our service
 @route('/')
