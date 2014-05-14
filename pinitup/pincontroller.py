@@ -81,36 +81,3 @@ def getImageFile(id,boardname,pinId,filename):
     return static_file(filepath,'./static/files')
     #return pin.getImageFile(id,boardname,pinId,filename)
     #return static_file(filepath, root='/path/to/your/static/files')
-
-def __format(request):
-    #for key in sorted(request.headers.iterkeys()):
-    #    print "%s=%s" % (key, request.headers[key])
-
-    types = request.headers.get("Accept",'')
-    subtypes = types.split(",")
-    for st in subtypes:
-        sst = st.split(';')
-        if sst[0] == "text/html":
-            return Pin.html
-        elif sst[0] == "text/plain":
-            return Pin.text
-        elif sst[0] == "application/json":
-            return Pin.json
-        elif sst[0] == "*/*":
-            return Pin.json
-
-    # default
-    return Pin.html
-
-#
-# The content type on the reply
-#
-def __response_format(reqfmt):
-        if reqfmt == Pin.html:
-            return "text/html"
-        elif reqfmt == Pin.text:
-            return "text/plain"
-        elif reqfmt == Pin.json:
-            return "application/json"
-        else:
-            return "*/*"

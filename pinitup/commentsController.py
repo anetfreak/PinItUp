@@ -55,37 +55,3 @@ def updateComment(id, boardname, pinId, commentId):
 def deleteComment(id, boardname, pinId, commentId):
     print '--> Delete a comment for user :',id , 'in pin : ', pinId
     return comments.deleteComment(id, boardname, pinId, commentId)
-
-
-def __format(request):
-    #for key in sorted(request.headers.iterkeys()):
-    #    print "%s=%s" % (key, request.headers[key])
-
-    types = request.headers.get("Accept",'')
-    subtypes = types.split(",")
-    for st in subtypes:
-        sst = st.split(';')
-        if sst[0] == "text/html":
-            return Comments.html
-        elif sst[0] == "text/plain":
-            return Comments.text
-        elif sst[0] == "application/json":
-            return Comments.json
-        elif sst[0] == "*/*":
-            return Comments.json
-
-    # default
-    return Comments.html
-
-#
-# The content type on the reply
-#
-def __response_format(reqfmt):
-        if reqfmt == Comments.html:
-            return "text/html"
-        elif reqfmt == Comments.text:
-            return "text/plain"
-        elif reqfmt == Comments.json:
-            return "application/json"
-        else:
-            return "*/*"
